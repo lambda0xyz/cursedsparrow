@@ -34,13 +34,6 @@ func nullTimeToString(nt sql.NullTime) sql.NullString {
 	return sql.NullString{Valid: true, String: nt.Time.UTC().Format(time.RFC3339)}
 }
 
-func timePtrToString(t *time.Time) *string {
-	if t == nil {
-		return nil
-	}
-	return new(t.UTC().Format(time.RFC3339))
-}
-
 func parseTimestampInput(s string) (time.Time, error) {
 	if s == "" {
 		return time.Time{}, nil
