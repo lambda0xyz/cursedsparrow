@@ -1,0 +1,89 @@
+.button {
+    font-family: var(--display);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    cursor: pointer;
+    border-radius: 2px;
+    white-space: nowrap;
+    transition:
+        border-color 0.15s var(--ease-out),
+        color 0.15s var(--ease-out),
+        background 0.15s var(--ease-out),
+        box-shadow 0.2s var(--ease-out),
+        transform 0.05s var(--ease-out);
+}
+
+.button:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+.button:active:not(:disabled) {
+    transform: translateY(1px);
+}
+
+/* Sizes */
+
+.medium {
+    padding: 0.6rem 1.1rem;
+    font-size: 0.9rem;
+}
+
+.small {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.78rem;
+    letter-spacing: 1.5px;
+}
+
+/* Variants */
+
+.primary {
+    border: 1px solid var(--magenta);
+    background: linear-gradient(180deg, rgba(var(--magenta-rgb), 0.22), rgba(var(--magenta-rgb), 0.06));
+    color: #fff;
+}
+
+.primary:hover:not(:disabled) {
+    box-shadow: 0 0 28px -4px var(--magenta);
+}
+
+.secondary {
+    background: var(--panel-2);
+    border: 1px solid var(--line-bright);
+    color: var(--dim);
+}
+
+.secondary:hover:not(:disabled) {
+    border-color: var(--cyan);
+    color: var(--text);
+}
+
+.secondary.active {
+    border-color: var(--cyan);
+    color: var(--cyan);
+    box-shadow: inset 0 0 12px -6px var(--cyan);
+}
+
+.danger {
+    background: var(--panel-2);
+    border: 1px solid var(--line-bright);
+    color: var(--dim);
+}
+
+.danger:hover:not(:disabled) {
+    border-color: var(--magenta);
+    color: var(--magenta);
+    box-shadow: 0 0 18px -6px var(--magenta);
+}
+
+.ghost {
+    background: transparent;
+    border: 1px solid var(--line-bright);
+    color: var(--dim);
+}
+
+.ghost:hover:not(:disabled) {
+    border-color: var(--cyan);
+    color: var(--text);
+}

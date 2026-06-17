@@ -1,0 +1,57 @@
+.overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(3, 3, 6, 0.92);
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    cursor: zoom-out;
+}
+
+.image {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    display: block;
+    cursor: default;
+    border: 1px solid var(--line-bright);
+    box-shadow:
+        0 0 0 1px rgba(var(--cyan-rgb), 0.06),
+        0 0 60px -20px rgba(var(--magenta-rgb), 0.4);
+}
+
+.close {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    background: var(--panel);
+    color: var(--dim);
+    border: 1px solid var(--line-bright);
+    width: 36px;
+    height: 36px;
+    border-radius: 2px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2001;
+    transition:
+        color 0.15s,
+        border-color 0.15s,
+        box-shadow 0.15s;
+}
+
+.close:hover {
+    border-color: var(--magenta);
+    color: var(--magenta);
+    box-shadow: 0 0 18px -6px var(--magenta);
+}
+
+@media (max-width: 600px) {
+    .overlay {
+        padding: 0.5rem;
+    }
+}
