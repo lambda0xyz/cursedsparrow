@@ -73,7 +73,6 @@ function VoiceStageInner({ members, canModerate, onLeave, onForceMute }: VoiceSt
     const [shareMenuOpen, setShareMenuOpen] = useState(false);
     const wasMicOnRef = useRef(false);
     const participantsRef = useRef(participants);
-    participantsRef.current = participants;
     const shareWrapRef = useRef<HTMLDivElement | null>(null);
 
     const sharingScreen = localParticipant.isScreenShareEnabled;
@@ -82,6 +81,10 @@ function VoiceStageInner({ members, canModerate, onLeave, onForceMute }: VoiceSt
     for (const m of members) {
         memberByIdentity.set(m.user.id, m);
     }
+
+    useEffect(() => {
+        participantsRef.current = participants;
+    });
 
     useEffect(() => {
         for (const p of participants) {

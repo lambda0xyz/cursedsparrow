@@ -24,9 +24,12 @@ export function useRoomVoice({ roomId, room, voiceEnabled }: UseRoomVoiceArgs) {
 
     const isVoiceChannel = room?.channel_kind === "voice";
     const voiceCtxRef = useRef(voiceCtx);
-    voiceCtxRef.current = voiceCtx;
     const roomNameRef = useRef(room?.name);
-    roomNameRef.current = room?.name;
+
+    useEffect(() => {
+        voiceCtxRef.current = voiceCtx;
+        roomNameRef.current = room?.name;
+    });
 
     useEffect(() => {
         if (!roomId || !isVoiceChannel || !voiceEnabled) {

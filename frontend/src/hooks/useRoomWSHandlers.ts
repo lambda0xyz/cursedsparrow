@@ -273,5 +273,7 @@ export function useRoomWSHandlers({
         setMembers,
         setPresenceMap,
         setRoom,
+        setToast,
+        setPinnedRefreshKey,
     ]);
 }
