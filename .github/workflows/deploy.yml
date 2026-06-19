@@ -15,7 +15,7 @@ jobs:
       contents: read
       packages: write
     env:
-      IMAGE: ghcr.io/${{ github.repository }}
+      IMAGE: ghcr.io/victoriquemoe/sixth_world_sunday
     steps:
       - uses: actions/checkout@v6
 
