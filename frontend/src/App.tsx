@@ -8,6 +8,7 @@ import { Header } from "./components/layout/Header/Header";
 import { VoiceProvider } from "./context/VoiceContext";
 import { CanonicalTag } from "./components/CanonicalTag/CanonicalTag";
 import { ProtectedRoute } from "./components/ProtectedRoute/ProtectedRoute";
+import { StaleVersionBanner } from "./components/StaleVersionBanner/StaleVersionBanner";
 import { LockBanner } from "./components/LockBanner/LockBanner";
 import { VerifyEmailBanner } from "./components/VerifyEmailBanner/VerifyEmailBanner";
 import { MaintenancePage } from "./pages/maintenance/MaintenancePage";
@@ -86,6 +87,7 @@ function AppLayout() {
                 <CanonicalTag />
                 <div className="app-main">
                     <Header />
+                    <StaleVersionBanner />
                     <LockBanner />
                     <VerifyEmailBanner />
                     <AnnouncementBanner />
