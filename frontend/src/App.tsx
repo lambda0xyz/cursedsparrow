@@ -100,8 +100,9 @@ function AppLayout() {
                                 <Route path="/verify-email" element={<VerifyEmailPage />} />
 
                                 <Route element={<ProtectedRoute />}>
-                                    <Route path="/channels" element={<ChannelsLayout />} />
-                                    <Route path="/channels/:roomId" element={<ChannelsLayout />} />
+                                    <Route path="/channels" element={<ChannelsLayout />}>
+                                        <Route path=":roomId" element={null} />
+                                    </Route>
                                     <Route path="/rules" element={<RulesPage />} />
                                     <Route path="/search" element={<SearchPage />} />
                                     <Route path="/users" element={<UsersPage />} />

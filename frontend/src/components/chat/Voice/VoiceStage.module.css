@@ -1,0 +1,275 @@
+.stage {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    flex: 0 0 auto;
+    padding: 14px 22px;
+    border-bottom: 1px solid var(--line);
+    background: radial-gradient(120% 120% at 50% 0%, rgba(var(--magenta-rgb), 0.05), transparent 60%), var(--bg-2);
+}
+
+.stage[data-sharing="true"] {
+    flex: 2 1 0;
+    min-height: 0;
+}
+
+.screenGrid {
+    flex: 1;
+    min-height: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    grid-auto-rows: 1fr;
+    gap: 10px;
+}
+
+.screenTile {
+    position: relative;
+    min-height: 0;
+    min-width: 0;
+    border: 1px solid var(--line-bright);
+    border-radius: 3px;
+    overflow: hidden;
+    background: #000;
+    display: flex;
+}
+
+.screenVideo {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+}
+
+.screenLabel {
+    position: absolute;
+    left: 8px;
+    bottom: 8px;
+    padding: 2px 7px;
+    border-radius: 2px;
+    background: rgba(0, 0, 0, 0.65);
+    color: var(--text);
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.5px;
+}
+
+.tileGrid {
+    flex-shrink: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.tile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    width: 120px;
+    padding: 14px 8px;
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    background: var(--panel);
+    transition:
+        border-color 0.15s,
+        box-shadow 0.15s;
+}
+
+.tileSpeaking {
+    border-color: var(--green);
+    box-shadow:
+        0 0 0 1px var(--green),
+        0 0 18px -6px var(--green);
+}
+
+.tileAvatar {
+    position: relative;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: var(--panel-2);
+    border: 1px solid var(--line-bright);
+}
+
+.tileSpeaking .tileAvatar {
+    border-color: var(--green);
+}
+
+.tileAvatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.tileInitial {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    font-family: var(--display);
+    font-size: 1.4rem;
+    color: var(--cyan);
+}
+
+.tileMuted {
+    position: absolute;
+    right: -2px;
+    bottom: -2px;
+    width: 22px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: var(--panel);
+    border: 1px solid rgba(var(--magenta-rgb), 0.6);
+    font-size: 11px;
+}
+
+.tileName {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text);
+}
+
+.tileModMute {
+    border: 1px solid rgba(var(--magenta-rgb), 0.5);
+    background: transparent;
+    color: var(--magenta);
+    font-family: var(--mono);
+    font-size: 9.5px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    line-height: 1;
+    padding: 0.2rem 0.45rem;
+    border-radius: 2px;
+    cursor: pointer;
+}
+
+.tileModMute:hover {
+    border-color: var(--magenta);
+}
+
+.controlBar {
+    flex-shrink: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    align-items: center;
+    padding-top: 4px;
+}
+
+.control {
+    background: var(--panel-2);
+    border: 1px solid var(--line-bright);
+    color: var(--dim);
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 0.5rem 0.9rem;
+    border-radius: 2px;
+    cursor: pointer;
+    transition:
+        border-color 0.15s,
+        color 0.15s,
+        background 0.15s;
+}
+
+.control:hover {
+    border-color: var(--cyan);
+    color: var(--cyan);
+}
+
+.controlActive {
+    border-color: var(--cyan);
+    color: var(--cyan);
+    box-shadow: inset 0 0 12px -6px var(--cyan);
+}
+
+.controlMuted {
+    border-color: rgba(var(--magenta-rgb), 0.55);
+    color: var(--magenta);
+}
+
+.leave {
+    border-color: rgba(var(--magenta-rgb), 0.45);
+    color: var(--magenta);
+}
+
+.leave:hover {
+    border-color: var(--magenta);
+    color: var(--magenta);
+}
+
+.shareWrap {
+    position: relative;
+    display: inline-flex;
+}
+
+.shareMenu {
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 30;
+    width: 244px;
+    background: var(--panel);
+    border: 1px solid var(--line-bright);
+    border-radius: 3px;
+    box-shadow: 0 12px 32px -10px rgba(0, 0, 0, 0.7);
+    padding: 6px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.shareMenuHead {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--dimmer);
+    padding: 4px 6px 2px;
+}
+
+.shareOption {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    text-align: left;
+    background: var(--panel-2);
+    border: 1px solid var(--line-bright);
+    border-radius: 2px;
+    padding: 8px 10px;
+    cursor: pointer;
+    transition:
+        border-color 0.12s,
+        background 0.12s;
+}
+
+.shareOption:hover {
+    border-color: var(--cyan);
+    background: rgba(var(--cyan-rgb), 0.06);
+}
+
+.shareOptTitle {
+    font-family: var(--display);
+    font-size: 0.85rem;
+    color: var(--text);
+}
+
+.shareOptDesc {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--dim);
+    letter-spacing: 0.3px;
+}

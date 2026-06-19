@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+import { Fragment, Suspense, lazy } from "react";
 import { isSiteStaff } from "../../utils/permissions";
 import { effectiveMemberUser, memberModPermissions } from "../../utils/chatMembers";
 import { useRoomController } from "../../hooks/useRoomController";
@@ -12,10 +12,12 @@ import { RoomModerationDialog } from "../../components/chat/RoomModerationDialog
 import { RoomMessageList } from "../../components/chat/MessageList/RoomMessageList";
 import { PinnedMessagesPanel } from "../../components/chat/PinnedMessagesPanel/PinnedMessagesPanel";
 import { MessageSearchPanel } from "../../components/chat/MessageSearchPanel/MessageSearchPanel";
-import { VoiceButton } from "../../components/chat/Voice/VoiceButton";
+import { forceMuteVoiceParticipant } from "../../api/endpoints";
 import { Lightbox } from "../../components/Lightbox/Lightbox";
 import { ProfileLink } from "../../components/ProfileLink/ProfileLink";
 import styles from "./RoomPage.module.css";
+
+const VoiceStage = lazy(() => import("../../components/chat/Voice/VoiceStage").then(m => ({ default: m.VoiceStage })));
 
 export function RoomPage() {
     const controller = useRoomController();
@@ -117,6 +119,7 @@ export function RoomPage() {
     const isSystem = room.is_system;
     const isSiteMod = isSiteStaff(user.role);
     const canModerateRoom = isHost || isSiteMod;
+    const isVoiceChannel = room.channel_kind === "voice";
 
     return (
         <div className={styles.roomWrapper}>
@@ -127,20 +130,6 @@ export function RoomPage() {
             >
                 <aside className={styles.sidebar}>
                     <div className={styles.sidebarHeader}>
-                        <button
-                            type="button"
-                            className={styles.backButton}
-                            onClick={() => {
-                                if (mobileView === "members") {
-                                    setMobileView("chat");
-                                } else {
-                                    navigate("/channels");
-                                }
-                            }}
-                            aria-label={mobileView === "members" ? "Back to chat" : "Back to rooms"}
-                        >
-                            {"←"}
-                        </button>
                         <span className={styles.sidebarTitle}>Members</span>
                         <span className={styles.memberCount}>{members.length}</span>
                         <button
@@ -205,7 +194,7 @@ export function RoomPage() {
                                                     title={presenceTitle}
                                                     aria-label={presenceTitle}
                                                 />
-                                                <ProfileLink user={effectiveUser} size="small" />
+                                                <ProfileLink user={effectiveUser} size="small" compactRoles />
                                                 {m.role === "host" && <span className={styles.hostBadge}>Host</span>}
                                                 {m.ghost && (
                                                     <span
@@ -423,6 +412,41 @@ export function RoomPage() {
                         </div>
                     )}
 
+                    {isVoiceChannel &&
+                        (voice.status === "connected" && voice.room ? (
+                            <Suspense
+                                fallback={
+                                    <div className={styles.voiceConnect}>
+                                        <span className={styles.voiceConnectText}>Loading voice…</span>
+                                    </div>
+                                }
+                            >
+                                <VoiceStage
+                                    room={voice.room}
+                                    members={members}
+                                    canModerate={canModerateRoom}
+                                    onLeave={voice.leave}
+                                    onForceMute={(id, muted) => {
+                                        forceMuteVoiceParticipant(room.id, id, muted).catch(() => {});
+                                    }}
+                                />
+                            </Suspense>
+                        ) : (
+                            <div className={styles.voiceConnect}>
+                                <span className={styles.voiceConnectText}>
+                                    {voice.status === "connecting"
+                                        ? "Connecting to voice…"
+                                        : voiceEnabled
+                                          ? "Not connected to this voice channel."
+                                          : "Voice chat is disabled."}
+                                </span>
+                                {voice.status !== "connecting" && voiceEnabled && (
+                                    <Button variant="primary" size="small" onClick={voice.join}>
+                                        Connect
+                                    </Button>
+                                )}
+                            </div>
+                        ))}
                     <RoomMessageList
                         controller={controller}
                         classes={{
@@ -441,17 +465,6 @@ export function RoomPage() {
                         onTyping={() => sendWSMessage({ type: "typing", data: { room_id: room.id } })}
                         onEditLast={handleEditLast}
                         timeoutUntil={viewerTimeoutUntil}
-                        extraActions={
-                            room.channel_kind === "voice" && user ? (
-                                <VoiceButton
-                                    enabled={voiceEnabled}
-                                    status={voice.status}
-                                    presenceCount={voice.presenceCount}
-                                    onJoin={voice.join}
-                                    onLeave={voice.leave}
-                                />
-                            ) : null
-                        }
                     />
                 </div>
             </div>

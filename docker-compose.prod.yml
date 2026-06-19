@@ -43,27 +43,12 @@ services:
       prometheus-port: "4323"
       prometheus-path: "/metrics"
 
-  valkey:
-    image: valkey/valkey:latest
-    container_name: sixth-world-valkey
-    restart: unless-stopped
-    command: valkey-server --save "" --appendonly no
-    ports:
-      - "127.0.0.1:6400:6379"
-
   livekit:
     image: livekit/livekit-server:latest
     container_name: sixth-world-livekit
     restart: unless-stopped
     command: --config /etc/livekit.yaml
-    depends_on:
-      - valkey
-    environment:
-      NODE_IP: 127.0.0.1
-    ports:
-      - "7890:7890"
-      - "7891:7891"
-      - "7892:7892/udp"
+    network_mode: host
     volumes:
       - ./livekit.yaml:/etc/livekit.yaml:ro
 

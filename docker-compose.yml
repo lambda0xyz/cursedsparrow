@@ -31,21 +31,11 @@ services:
     volumes:
       - ./data:/app/data
 
-  valkey:
-    image: valkey/valkey:latest
-    container_name: sixth-world-valkey
-    restart: unless-stopped
-    command: valkey-server --save "" --appendonly no
-    ports:
-      - "127.0.0.1:6400:6379"
-
   livekit:
     image: livekit/livekit-server:latest
     container_name: sixth-world-livekit
     restart: unless-stopped
     command: --config /etc/livekit.yaml
-    depends_on:
-      - valkey
     environment:
       NODE_IP: 127.0.0.1
     ports:

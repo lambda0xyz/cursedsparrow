@@ -266,7 +266,7 @@ export function MobileRoomView({ controller }: { controller: RoomController }) {
                                 return (
                                     <div key={m.user.id} className={styles.memberRow}>
                                         <span className={`${styles.presenceDot} ${presenceClass}`} />
-                                        <ProfileLink user={effectiveUser} size="small" />
+                                        <ProfileLink user={effectiveUser} size="small" compactRoles />
                                         {m.role === "host" && <span className={styles.hostBadge}>Host</span>}
                                         <span className={styles.memberSpacer} />
                                         {isSelf && (

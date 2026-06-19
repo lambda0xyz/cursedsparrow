@@ -67,7 +67,7 @@ func (s *voiceService) MintVoiceToken(ctx context.Context, roomID, userID uuid.U
 	displayName := s.displayNameFor(ctx, userID, roomID)
 	canMic := !s.isVoiceMuted(roomID.String(), userID)
 
-	token, err = s.livekitSvc.MintToken(roomID.String(), userID.String(), displayName, canMic, false)
+	token, err = s.livekitSvc.MintToken(roomID.String(), userID.String(), displayName, canMic, true)
 	if err != nil {
 		return "", "", err
 	}
@@ -90,7 +90,7 @@ func (s *voiceService) ForceMuteVoice(ctx context.Context, roomID, actorID, targ
 
 	s.setVoiceMuted(roomID.String(), targetID, muted)
 
-	return s.livekitSvc.SetCanPublish(ctx, roomID.String(), targetID.String(), !muted, false)
+	return s.livekitSvc.SetCanPublish(ctx, roomID.String(), targetID.String(), !muted, true)
 }
 
 func (s *voiceService) HandleVoiceWebhook(ctx context.Context, authHeader string, body []byte) error {

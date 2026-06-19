@@ -39,26 +39,43 @@ export function usePresenceReporter({ roomId, sendWSMessage, wsEpoch }: Options)
         };
 
         const onActivity = () => {
-            if (document.visibilityState !== "visible") {
+            if (document.visibilityState !== "visible" || !document.hasFocus()) {
                 return;
             }
             report("active");
             armIdleTimer();
         };
 
+        const goActive = () => {
+            report("active");
+            armIdleTimer();
+        };
+
+        const goIdle = () => {
+            clearIdleTimer();
+            report("idle");
+        };
+
         const onVisibilityChange = () => {
-            if (document.visibilityState === "visible") {
-                report("active");
-                armIdleTimer();
+            if (document.visibilityState === "visible" && document.hasFocus()) {
+                goActive();
             } else {
-                clearIdleTimer();
-                report("idle");
+                goIdle();
             }
         };
 
-        if (document.visibilityState === "visible") {
-            report("active");
-            armIdleTimer();
+        const onFocus = () => {
+            if (document.visibilityState === "visible") {
+                goActive();
+            }
+        };
+
+        const onBlur = () => {
+            goIdle();
+        };
+
+        if (document.visibilityState === "visible" && document.hasFocus()) {
+            goActive();
         } else {
             report("idle");
         }
@@ -68,6 +85,8 @@ export function usePresenceReporter({ roomId, sendWSMessage, wsEpoch }: Options)
         window.addEventListener("click", onActivity);
         window.addEventListener("scroll", onActivity, true);
         window.addEventListener("touchstart", onActivity);
+        window.addEventListener("focus", onFocus);
+        window.addEventListener("blur", onBlur);
         document.addEventListener("visibilitychange", onVisibilityChange);
 
         return () => {
@@ -78,6 +97,8 @@ export function usePresenceReporter({ roomId, sendWSMessage, wsEpoch }: Options)
             window.removeEventListener("click", onActivity);
             window.removeEventListener("scroll", onActivity, true);
             window.removeEventListener("touchstart", onActivity);
+            window.removeEventListener("focus", onFocus);
+            window.removeEventListener("blur", onBlur);
             document.removeEventListener("visibilitychange", onVisibilityChange);
         };
     }, [roomId, sendWSMessage, wsEpoch]);

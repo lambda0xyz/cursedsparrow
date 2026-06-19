@@ -9,6 +9,7 @@ interface ProfileLinkProps {
     size?: "small" | "medium" | "large";
     showName?: boolean;
     showRoles?: boolean;
+    compactRoles?: boolean;
     prefix?: string;
     online?: boolean;
     clickable?: boolean;
@@ -25,6 +26,7 @@ export function ProfileLink({
     size = "medium",
     showName = true,
     showRoles = true,
+    compactRoles = false,
     prefix,
     online,
     clickable = true,
@@ -58,7 +60,7 @@ export function ProfileLink({
                     <span className={banned ? styles.bannedName : undefined}>
                         <RoleStyledName name={user.display_name} role={user.role} />
                     </span>
-                    {showRoles && <RolePill role={user.role ?? ""} userId={user.id} />}
+                    {showRoles && <RolePill role={user.role ?? ""} userId={user.id} compact={compactRoles} />}
                     {banned && <span className={styles.bannedPill}>banned</span>}
                 </span>
             )}

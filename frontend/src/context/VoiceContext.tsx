@@ -21,6 +21,7 @@ export function VoiceProvider({ children }: PropsWithChildren) {
     const [activeRoomName, setActiveRoomName] = useState("");
     const [presence, setPresence] = useState<Record<string, string[]>>({});
     const roomRef = useRef<Room | null>(null);
+    const connectingRef = useRef<string | null>(null);
 
     useEffect(() => {
         return addWSListener((msg: WSMessage) => {
@@ -36,6 +37,7 @@ export function VoiceProvider({ children }: PropsWithChildren) {
     const leave = useCallback(() => {
         const current = roomRef.current;
         roomRef.current = null;
+        connectingRef.current = null;
         setRoom(null);
         setStatus("idle");
         setActiveRoomId(null);
@@ -49,15 +51,17 @@ export function VoiceProvider({ children }: PropsWithChildren) {
 
     const join = useCallback(
         (roomId: string, roomName: string) => {
+            if (connectingRef.current === roomId || activeRoomId === roomId) {
+                return;
+            }
+
             if (roomRef.current) {
-                if (activeRoomId === roomId) {
-                    return;
-                }
                 const previous = roomRef.current;
                 roomRef.current = null;
                 previous.disconnect().catch(() => {});
             }
 
+            connectingRef.current = roomId;
             setStatus("connecting");
             setActiveRoomId(roomId);
             setActiveRoomName(roomName);
@@ -65,6 +69,10 @@ export function VoiceProvider({ children }: PropsWithChildren) {
             const connect = async () => {
                 const { Room, RoomEvent } = await import("livekit-client");
                 const { token, url } = await getVoiceToken(roomId);
+
+                if (connectingRef.current !== roomId) {
+                    return;
+                }
 
                 const livekitRoom = new Room();
                 roomRef.current = livekitRoom;
@@ -74,6 +82,7 @@ export function VoiceProvider({ children }: PropsWithChildren) {
                         return;
                     }
                     roomRef.current = null;
+                    connectingRef.current = null;
                     setRoom(null);
                     setStatus("idle");
                     setActiveRoomId(null);
@@ -90,6 +99,12 @@ export function VoiceProvider({ children }: PropsWithChildren) {
 
                 await livekitRoom.connect(url, token);
 
+                if (connectingRef.current !== roomId) {
+                    livekitRoom.disconnect().catch(() => {});
+                    return;
+                }
+
+                connectingRef.current = null;
                 setRoom(livekitRoom);
                 setStatus("connected");
                 playVoiceJoinSound();
@@ -98,6 +113,9 @@ export function VoiceProvider({ children }: PropsWithChildren) {
             };
 
             connect().catch(() => {
+                if (connectingRef.current === roomId) {
+                    connectingRef.current = null;
+                }
                 roomRef.current = null;
                 setStatus("idle");
                 setActiveRoomId(null);

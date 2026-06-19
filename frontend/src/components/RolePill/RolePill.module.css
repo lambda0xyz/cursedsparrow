@@ -179,6 +179,49 @@
     }
 }
 
+.group.groupAlwaysCompact:not(.groupExpanded) {
+    display: inline-flex;
+    align-items: center;
+    vertical-align: middle;
+    gap: 4px;
+    margin-left: 0.35rem;
+}
+
+.pill.alwaysCompact {
+    width: 0.5rem;
+    height: 0.5rem;
+    padding: 0;
+    border-radius: 50%;
+    font-size: 0;
+    line-height: 0;
+    overflow: hidden;
+    flex-shrink: 0;
+    margin-left: 0;
+    vertical-align: middle;
+    background-color: var(--dot-color, currentColor) !important;
+    border: 1px solid var(--dot-color, currentColor) !important;
+    text-shadow: none;
+    box-shadow: none;
+    animation: none;
+    cursor: pointer;
+}
+
+.pill.alwaysCompact.superAdmin {
+    --dot-color: var(--violet);
+}
+
+.pill.alwaysCompact.admin {
+    --dot-color: var(--magenta);
+}
+
+.pill.alwaysCompact.moderator {
+    --dot-color: var(--cyan);
+}
+
+.pill.alwaysCompact.superAdmin::after {
+    display: none;
+}
+
 .admin {
     background: rgba(var(--magenta-rgb), 0.12);
     color: var(--magenta);

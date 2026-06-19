@@ -6,6 +6,7 @@ interface RolePillProps {
     role: string;
     userId?: string;
     compactOnMobile?: boolean;
+    compact?: boolean;
 }
 
 const roleConfig: Record<string, { label: string; className: string; tooltip: string }> = {
@@ -39,10 +40,10 @@ function darkenForText(hex: string): string {
     return `#${toHex(nr)}${toHex(ng)}${toHex(nb)}`;
 }
 
-export function RolePill({ role, userId, compactOnMobile }: RolePillProps) {
+export function RolePill({ role, userId, compactOnMobile, compact }: RolePillProps) {
     const siteInfo = useSiteInfo();
     const config = roleConfig[role];
-    const [mobileExpanded, setMobileExpanded] = useState(false);
+    const [expanded, setExpanded] = useState(false);
     const collapseTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
     useEffect(() => {
@@ -63,10 +64,11 @@ export function RolePill({ role, userId, compactOnMobile }: RolePillProps) {
     }
     vanityRoles.sort((a, b) => a.sort_order - b.sort_order);
 
-    const renderAsCompact = compactOnMobile && !mobileExpanded;
-    const compactClass = renderAsCompact ? ` ${styles.compactMobile}` : "";
+    const collapsible = compactOnMobile === true || compact === true;
+    const isCompacted = collapsible && !expanded;
+    const compactClass = isCompacted ? (compact ? ` ${styles.alwaysCompact}` : ` ${styles.compactMobile}`) : "";
 
-    const onPillClick = compactOnMobile
+    const onPillClick = collapsible
         ? (e: React.MouseEvent) => {
               e.stopPropagation();
               e.preventDefault();
@@ -74,10 +76,10 @@ export function RolePill({ role, userId, compactOnMobile }: RolePillProps) {
                   clearTimeout(collapseTimerRef.current);
                   collapseTimerRef.current = null;
               }
-              setMobileExpanded(prev => {
+              setExpanded(prev => {
                   const next = !prev;
                   if (next) {
-                      collapseTimerRef.current = setTimeout(() => setMobileExpanded(false), 5000);
+                      collapseTimerRef.current = setTimeout(() => setExpanded(false), 5000);
                   }
                   return next;
               });
@@ -89,8 +91,8 @@ export function RolePill({ role, userId, compactOnMobile }: RolePillProps) {
     }
 
     const groupClass = `${styles.group}${compactOnMobile ? ` ${styles.groupCompactMobile}` : ""}${
-        renderAsCompact ? "" : ` ${styles.groupExpanded}`
-    }`;
+        compact ? ` ${styles.groupAlwaysCompact}` : ""
+    }${isCompacted ? "" : ` ${styles.groupExpanded}`}`;
 
     return (
         <span className={groupClass} aria-label="User roles">

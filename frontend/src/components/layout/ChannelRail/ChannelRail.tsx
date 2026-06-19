@@ -108,7 +108,7 @@ export function ChannelRail() {
                 </div>
             </div>
 
-            {voice.status === "connected" && (
+            {voice.status === "connected" && voice.activeRoomId !== activeId && (
                 <Suspense fallback={null}>
                     <VoiceDock />
                 </Suspense>

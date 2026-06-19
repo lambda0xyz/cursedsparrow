@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSiteInfo } from "../../hooks/useSiteInfo";
 import { validateFileSize } from "../../utils/fileValidation";
 import { Button } from "../Button/Button";
@@ -16,21 +16,21 @@ interface MediaPreviewsProps {
 export function MediaPreviews({ files, onRemove, onReorder, size = "normal" }: MediaPreviewsProps) {
     const dragIndex = useRef<number | null>(null);
 
-    const previews = useMemo(() => {
+    const [previews, setPreviews] = useState<string[]>([]);
+
+    useEffect(() => {
         const urls: string[] = [];
         for (let i = 0; i < files.length; i++) {
             urls.push(URL.createObjectURL(files[i]));
         }
-        return urls;
-    }, [files]);
+        setPreviews(urls);
 
-    useEffect(() => {
         return () => {
-            for (let i = 0; i < previews.length; i++) {
-                URL.revokeObjectURL(previews[i]);
+            for (let i = 0; i < urls.length; i++) {
+                URL.revokeObjectURL(urls[i]);
             }
         };
-    }, [previews]);
+    }, [files]);
 
     if (files.length === 0) {
         return null;

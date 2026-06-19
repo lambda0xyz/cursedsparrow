@@ -446,6 +446,7 @@
 
 .sidebarExpandRail {
     flex-shrink: 0;
+    order: 3;
     width: 28px;
     background: var(--panel);
     border: none;
@@ -655,6 +656,24 @@
     display: flex;
     flex-direction: column;
     gap: 18px;
+}
+
+.voiceConnect {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    padding: 28px 22px;
+    border-bottom: 1px solid var(--line);
+    background: var(--bg-2);
+}
+
+.voiceConnectText {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--dim);
 }
 
 .messagesEmpty {
