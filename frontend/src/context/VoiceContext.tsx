@@ -6,6 +6,7 @@ import { useNotifications } from "../hooks/useNotifications";
 import { playVoiceJoinSound, playVoiceLeaveSound } from "../utils/sound";
 import type { WSMessage } from "../types/api";
 import { VoiceContext, type VoiceStatus } from "./voiceContextValue";
+import { useVoiceSettings } from "./voiceSettingsContextValue";
 
 interface VoicePresenceData {
     room_id: string;
@@ -13,8 +14,19 @@ interface VoicePresenceData {
     count: number;
 }
 
+function isTypingTarget(target: EventTarget | null): boolean {
+    if (!(target instanceof HTMLElement)) {
+        return false;
+    }
+
+    const tag = target.tagName;
+
+    return tag === "INPUT" || tag === "TEXTAREA" || target.isContentEditable;
+}
+
 export function VoiceProvider({ children }: PropsWithChildren) {
     const { addWSListener } = useNotifications();
+    const { inputMode, pttKey, outputVolume } = useVoiceSettings();
     const [status, setStatus] = useState<VoiceStatus>("idle");
     const [room, setRoom] = useState<Room | null>(null);
     const [activeRoomId, setActiveRoomId] = useState<string | null>(null);
@@ -22,6 +34,13 @@ export function VoiceProvider({ children }: PropsWithChildren) {
     const [presence, setPresence] = useState<Record<string, string[]>>({});
     const roomRef = useRef<Room | null>(null);
     const connectingRef = useRef<string | null>(null);
+    const inputModeRef = useRef(inputMode);
+    const outputVolumeRef = useRef(outputVolume);
+
+    useEffect(() => {
+        inputModeRef.current = inputMode;
+        outputVolumeRef.current = outputVolume;
+    }, [inputMode, outputVolume]);
 
     useEffect(() => {
         return addWSListener((msg: WSMessage) => {
@@ -97,6 +116,10 @@ export function VoiceProvider({ children }: PropsWithChildren) {
                     playVoiceLeaveSound();
                 });
 
+                livekitRoom.on(RoomEvent.TrackSubscribed, (_track, _publication, participant) => {
+                    participant.setVolume(outputVolumeRef.current);
+                });
+
                 await livekitRoom.connect(url, token);
 
                 if (connectingRef.current !== roomId) {
@@ -109,7 +132,7 @@ export function VoiceProvider({ children }: PropsWithChildren) {
                 setStatus("connected");
                 playVoiceJoinSound();
 
-                livekitRoom.localParticipant.setMicrophoneEnabled(true).catch(() => {});
+                livekitRoom.localParticipant.setMicrophoneEnabled(inputModeRef.current === "voice").catch(() => {});
             };
 
             connect().catch(() => {
@@ -133,6 +156,50 @@ export function VoiceProvider({ children }: PropsWithChildren) {
             }
         };
     }, []);
+
+    useEffect(() => {
+        if (status !== "connected" || !room) {
+            return;
+        }
+
+        room.localParticipant.setMicrophoneEnabled(inputMode === "voice").catch(() => {});
+    }, [status, room, inputMode]);
+
+    useEffect(() => {
+        if (status !== "connected" || inputMode !== "ptt" || !room) {
+            return;
+        }
+
+        const localParticipant = room.localParticipant;
+
+        const onKeyDown = (e: KeyboardEvent) => {
+            if (e.repeat || e.code !== pttKey || isTypingTarget(e.target)) {
+                return;
+            }
+            localParticipant.setMicrophoneEnabled(true).catch(() => {});
+        };
+
+        const onKeyUp = (e: KeyboardEvent) => {
+            if (e.code !== pttKey) {
+                return;
+            }
+            localParticipant.setMicrophoneEnabled(false).catch(() => {});
+        };
+
+        const onBlur = () => {
+            localParticipant.setMicrophoneEnabled(false).catch(() => {});
+        };
+
+        window.addEventListener("keydown", onKeyDown);
+        window.addEventListener("keyup", onKeyUp);
+        window.addEventListener("blur", onBlur);
+
+        return () => {
+            window.removeEventListener("keydown", onKeyDown);
+            window.removeEventListener("keyup", onKeyUp);
+            window.removeEventListener("blur", onBlur);
+        };
+    }, [status, room, inputMode, pttKey]);
 
     return (
         <VoiceContext.Provider value={{ status, activeRoomId, activeRoomName, room, presence, join, leave }}>

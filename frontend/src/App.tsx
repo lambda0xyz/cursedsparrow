@@ -10,6 +10,7 @@ import { canAccessAdmin } from "./utils/permissions";
 import { ensureNotificationPermission } from "./utils/notifications";
 import { Header } from "./components/layout/Header/Header";
 import { VoiceProvider } from "./context/VoiceContext";
+import { VoiceSettingsProvider } from "./context/VoiceSettingsContext";
 import { CanonicalTag } from "./components/CanonicalTag/CanonicalTag";
 import { ProtectedRoute } from "./components/ProtectedRoute/ProtectedRoute";
 import { StaleVersionBanner } from "./components/StaleVersionBanner/StaleVersionBanner";
@@ -89,69 +90,71 @@ function AppLayout() {
     }
 
     return (
-        <VoiceProvider>
-            <MobileNavContext.Provider value={{ openNav: () => setNavOpen(true) }}>
-                <div className="app-layout">
-                    <CanonicalTag />
-                    <div className="app-main">
-                        <Header />
-                        <StaleVersionBanner />
-                        <LockBanner />
-                        <VerifyEmailBanner />
-                        <AnnouncementBanner />
-                        <main className="main-content">
-                            <Suspense fallback={<RouteFallback />}>
-                                <Routes>
-                                    <Route path="/" element={<HomePage />} />
-                                    <Route path="/login" element={<LoginPage />} />
-                                    <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-                                    <Route path="/reset-password" element={<ResetPasswordPage />} />
-                                    <Route path="/set-email" element={<SetEmailPage />} />
-                                    <Route path="/verify-email" element={<VerifyEmailPage />} />
+        <VoiceSettingsProvider>
+            <VoiceProvider>
+                <MobileNavContext.Provider value={{ openNav: () => setNavOpen(true) }}>
+                    <div className="app-layout">
+                        <CanonicalTag />
+                        <div className="app-main">
+                            <Header />
+                            <StaleVersionBanner />
+                            <LockBanner />
+                            <VerifyEmailBanner />
+                            <AnnouncementBanner />
+                            <main className="main-content">
+                                <Suspense fallback={<RouteFallback />}>
+                                    <Routes>
+                                        <Route path="/" element={<HomePage />} />
+                                        <Route path="/login" element={<LoginPage />} />
+                                        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+                                        <Route path="/reset-password" element={<ResetPasswordPage />} />
+                                        <Route path="/set-email" element={<SetEmailPage />} />
+                                        <Route path="/verify-email" element={<VerifyEmailPage />} />
 
-                                    <Route element={<ProtectedRoute />}>
-                                        <Route path="/channels" element={<ChannelsLayout />}>
-                                            <Route path=":roomId" element={null} />
+                                        <Route element={<ProtectedRoute />}>
+                                            <Route path="/channels" element={<ChannelsLayout />}>
+                                                <Route path=":roomId" element={null} />
+                                            </Route>
+                                            <Route path="/rules" element={<RulesPage />} />
+                                            <Route path="/files" element={<FileBrowserPage />} />
+                                            <Route path="/search" element={<SearchPage />} />
+                                            <Route path="/users" element={<UsersPage />} />
+                                            <Route path="/user/:username" element={<ProfilePage />} />
+                                            <Route path="/notifications" element={<NotificationsPage />} />
+                                            <Route path="/settings" element={<SettingsPage />} />
                                         </Route>
-                                        <Route path="/rules" element={<RulesPage />} />
-                                        <Route path="/files" element={<FileBrowserPage />} />
-                                        <Route path="/search" element={<SearchPage />} />
-                                        <Route path="/users" element={<UsersPage />} />
-                                        <Route path="/user/:username" element={<ProfilePage />} />
-                                        <Route path="/notifications" element={<NotificationsPage />} />
-                                        <Route path="/settings" element={<SettingsPage />} />
-                                    </Route>
 
-                                    <Route element={<ProtectedRoute permission="view_admin_panel" />}>
-                                        <Route path="/admin" element={<AdminLayout />}>
-                                            <Route index element={<AdminDashboard />} />
-                                            <Route path="users" element={<AdminUsers />} />
-                                            <Route path="users/:id" element={<AdminUserDetail />} />
-                                            <Route path="invites" element={<AdminInvites />} />
-                                            <Route path="settings" element={<AdminSettings />} />
-                                            <Route path="reports" element={<AdminReports />} />
-                                            <Route path="content-rules" element={<AdminContentRules />} />
-                                            <Route path="rules" element={<AdminRulesPage />} />
-                                            <Route path="banned-words" element={<AdminBannedWords />} />
-                                            <Route path="audit-log" element={<AdminAuditLog />} />
-                                            <Route path="vanity-roles" element={<AdminVanityRoles />} />
+                                        <Route element={<ProtectedRoute permission="view_admin_panel" />}>
+                                            <Route path="/admin" element={<AdminLayout />}>
+                                                <Route index element={<AdminDashboard />} />
+                                                <Route path="users" element={<AdminUsers />} />
+                                                <Route path="users/:id" element={<AdminUserDetail />} />
+                                                <Route path="invites" element={<AdminInvites />} />
+                                                <Route path="settings" element={<AdminSettings />} />
+                                                <Route path="reports" element={<AdminReports />} />
+                                                <Route path="content-rules" element={<AdminContentRules />} />
+                                                <Route path="rules" element={<AdminRulesPage />} />
+                                                <Route path="banned-words" element={<AdminBannedWords />} />
+                                                <Route path="audit-log" element={<AdminAuditLog />} />
+                                                <Route path="vanity-roles" element={<AdminVanityRoles />} />
+                                            </Route>
                                         </Route>
-                                    </Route>
 
-                                    <Route path="*" element={<NotFoundPage />} />
-                                </Routes>
-                            </Suspense>
-                        </main>
+                                        <Route path="*" element={<NotFoundPage />} />
+                                    </Routes>
+                                </Suspense>
+                            </main>
+                        </div>
+
+                        {isMobile && user && (
+                            <MobileNavDrawer open={navOpen} onOpenChange={setNavOpen}>
+                                <ChannelRail onNavigate={() => setNavOpen(false)} />
+                            </MobileNavDrawer>
+                        )}
                     </div>
-
-                    {isMobile && user && (
-                        <MobileNavDrawer open={navOpen} onOpenChange={setNavOpen}>
-                            <ChannelRail onNavigate={() => setNavOpen(false)} />
-                        </MobileNavDrawer>
-                    )}
-                </div>
-            </MobileNavContext.Provider>
-        </VoiceProvider>
+                </MobileNavContext.Provider>
+            </VoiceProvider>
+        </VoiceSettingsProvider>
     );
 }
 

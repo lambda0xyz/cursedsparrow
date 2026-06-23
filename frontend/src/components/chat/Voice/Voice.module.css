@@ -133,3 +133,13 @@
     flex: 1;
     text-align: center;
 }
+
+.settingsWrap {
+    position: relative;
+    display: flex;
+    flex: 1;
+}
+
+.settingsWrap > button {
+    flex: 1;
+}
