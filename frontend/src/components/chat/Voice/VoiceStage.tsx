@@ -13,7 +13,9 @@ import type { Participant, Room } from "livekit-client";
 
 import type { ChatRoomMember } from "../../../types/api";
 import { effectiveMemberUser } from "../../../utils/chatMembers";
+import { useVoiceSettings, pttKeyLabel } from "../../../context/voiceSettingsContextValue";
 import { Button } from "../../Button/Button";
+import { VoiceSettingsPanel } from "./VoiceSettingsPanel";
 import styles from "./VoiceStage.module.css";
 
 type ScreenShareMode = "gaming" | "screenshare";
@@ -70,11 +72,19 @@ function VoiceStageInner({ members, canModerate, onLeave, onForceMute }: VoiceSt
     const participants = useParticipants();
     const screenShares = useTracks([Track.Source.ScreenShare]);
     const { localParticipant, isMicrophoneEnabled } = useLocalParticipant();
+    const { inputMode, pttKey, outputVolume } = useVoiceSettings();
     const [deafened, setDeafened] = useState(false);
     const [shareMenuOpen, setShareMenuOpen] = useState(false);
+    const [settingsOpen, setSettingsOpen] = useState(false);
     const wasMicOnRef = useRef(false);
     const participantsRef = useRef(participants);
+    const outputVolumeRef = useRef(outputVolume);
     const shareWrapRef = useRef<HTMLDivElement | null>(null);
+    const settingsWrapRef = useRef<HTMLDivElement | null>(null);
+
+    useEffect(() => {
+        outputVolumeRef.current = outputVolume;
+    }, [outputVolume]);
 
     const sharingScreen = localParticipant.isScreenShareEnabled;
 
@@ -90,16 +100,16 @@ function VoiceStageInner({ members, canModerate, onLeave, onForceMute }: VoiceSt
     useEffect(() => {
         for (const p of participants) {
             if (p instanceof RemoteParticipant) {
-                p.setVolume(deafened ? 0 : 1);
+                p.setVolume(deafened ? 0 : outputVolume);
             }
         }
-    }, [participants, deafened]);
+    }, [participants, deafened, outputVolume]);
 
     useEffect(() => {
         return () => {
             for (const p of participantsRef.current) {
                 if (p instanceof RemoteParticipant) {
-                    p.setVolume(1);
+                    p.setVolume(outputVolumeRef.current);
                 }
             }
         };
@@ -119,6 +129,21 @@ function VoiceStageInner({ members, canModerate, onLeave, onForceMute }: VoiceSt
             document.removeEventListener("mousedown", onDown);
         };
     }, [shareMenuOpen]);
+
+    useEffect(() => {
+        if (!settingsOpen) {
+            return;
+        }
+        function onDown(e: MouseEvent) {
+            if (settingsWrapRef.current && !settingsWrapRef.current.contains(e.target as Node)) {
+                setSettingsOpen(false);
+            }
+        }
+        document.addEventListener("mousedown", onDown);
+        return () => {
+            document.removeEventListener("mousedown", onDown);
+        };
+    }, [settingsOpen]);
 
     const toggleMute = () => {
         localParticipant.setMicrophoneEnabled(!isMicrophoneEnabled).catch(() => {});
@@ -231,9 +256,17 @@ function VoiceStageInner({ members, canModerate, onLeave, onForceMute }: VoiceSt
             </div>
 
             <div className={styles.controlBar}>
-                <Button variant="control" tone={isMicrophoneEnabled ? "default" : "danger"} onClick={toggleMute}>
-                    {isMicrophoneEnabled ? "\u{1F399} Mute" : "\u{1F507} Unmute"}
-                </Button>
+                {inputMode === "ptt" ? (
+                    <Button variant="control" active={isMicrophoneEnabled} disabled>
+                        {isMicrophoneEnabled
+                            ? `\u{1F399} Talking (${pttKeyLabel(pttKey)})`
+                            : `\u{1F507} Push to talk (${pttKeyLabel(pttKey)})`}
+                    </Button>
+                ) : (
+                    <Button variant="control" tone={isMicrophoneEnabled ? "default" : "danger"} onClick={toggleMute}>
+                        {isMicrophoneEnabled ? "\u{1F399} Mute" : "\u{1F507} Unmute"}
+                    </Button>
+                )}
                 <Button variant="control" tone={deafened ? "danger" : "default"} onClick={toggleDeafen}>
                     {deafened ? "\u{1F507} Undeafen" : "\u{1F3A7} Deafen"}
                 </Button>
@@ -262,6 +295,17 @@ function VoiceStageInner({ members, canModerate, onLeave, onForceMute }: VoiceSt
                             </button>
                         </div>
                     )}
+                </div>
+                <div className={styles.shareWrap} ref={settingsWrapRef}>
+                    <Button
+                        variant="control"
+                        active={settingsOpen}
+                        onClick={() => setSettingsOpen(o => !o)}
+                        title="Voice settings"
+                    >
+                        {"⚙ Settings"}
+                    </Button>
+                    {settingsOpen && <VoiceSettingsPanel />}
                 </div>
                 <Button variant="control" tone="danger" onClick={onLeave}>
                     {"⏏ Disconnect"}
