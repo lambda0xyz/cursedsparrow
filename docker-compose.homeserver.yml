@@ -1,0 +1,53 @@
+# Homeserver deployment (Proxmox LXC 102, behind Cloudflare Tunnel).
+# Postgres + app (built on-box) + cloudflared. No LiveKit (voice off by default),
+# no observability network. App is not exposed on the LAN; cloudflared reaches it
+# over the compose network. See homeserver-specs.md "Container 102 - chat".
+services:
+  postgres:
+    image: postgres:latest
+    container_name: sixth-world-postgres
+    restart: unless-stopped
+    env_file:
+      - postgres.env
+    volumes:
+      - postgres_data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+
+  sixth-world-sunday:
+    build: .
+    container_name: sixth-world-sunday
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    env_file:
+      - .env
+      - postgres.env
+    volumes:
+      - /mnt/chatdata:/app/data       # uploads + filevault on the mp0 (future HDD)
+    ports:
+      - "127.0.0.1:2313:4323"         # local debug only; non-/health paths 403 by host-auth
+
+  cloudflared:
+    image: cloudflare/cloudflared:latest   # stateless; safe on latest
+    container_name: sixth-world-cloudflared
+    restart: unless-stopped
+    command: tunnel --no-autoupdate run
+    environment:
+      TUNNEL_TOKEN: ${CF_TUNNEL_TOKEN}
+    depends_on:
+      - sixth-world-sunday
+
+networks:                  # pin subnet so it stays stable across recreates
+  default:
+    ipam:
+      config:
+        - subnet: 172.21.0.0/24
+
+volumes:
+  postgres_data:
