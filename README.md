@@ -1,3 +1,5 @@
+Original author [@VictoriqueMoe](https://github.com/VictoriqueMoe/Sixth_world_Sunday)
+
 # The Cursed Sparrow
 
 A private, invite-based, Discord-style community chat node. Self-hosted, web-only, with session-cookie auth.
