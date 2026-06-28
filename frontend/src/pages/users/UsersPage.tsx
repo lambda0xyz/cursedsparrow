@@ -40,15 +40,15 @@ export function UsersPage() {
     const offlineUsers = useMemo(() => regularUsers.filter(u => !u.online), [regularUsers]);
 
     if (loading) {
-        return <div className="loading">Scanning the grid...</div>;
+        return <div className="loading">Loading...</div>;
     }
 
     return (
         <div className={styles.page}>
-            <h1 className={styles.title}>Runners</h1>
+            <h1 className={styles.title}>Members</h1>
             <Input
                 type="text"
-                placeholder="Search runners..."
+                placeholder="Search members..."
                 value={search}
                 onChange={e => setSearch(e.target.value)}
                 className={styles.search}
@@ -70,10 +70,10 @@ export function UsersPage() {
             ))}
 
             <h2 className={styles.groupTitle}>
-                Jacked In <span className={styles.count}>({onlineUsers.length})</span>
+                Online <span className={styles.count}>({onlineUsers.length})</span>
             </h2>
             <div className={styles.userList}>
-                {onlineUsers.length === 0 && <span className={styles.empty}>No one jacked in</span>}
+                {onlineUsers.length === 0 && <span className={styles.empty}>No one online</span>}
                 {onlineUsers.map(u => (
                     <div key={u.id} className={styles.userItem}>
                         <ProfileLink user={u} size="medium" online />
@@ -86,7 +86,7 @@ export function UsersPage() {
                 Offline <span className={styles.count}>({offlineUsers.length})</span>
             </h2>
             <div className={styles.userList}>
-                {offlineUsers.length === 0 && <span className={styles.empty}>No offline runners</span>}
+                {offlineUsers.length === 0 && <span className={styles.empty}>No offline members</span>}
                 {offlineUsers.map(u => (
                     <div key={u.id} className={styles.userItem}>
                         <ProfileLink user={u} size="medium" />

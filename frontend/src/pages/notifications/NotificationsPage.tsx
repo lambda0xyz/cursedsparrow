@@ -117,9 +117,9 @@ export function NotificationsPage() {
             </div>
 
             {loading && notifications.length === 0 ? (
-                <div className={styles.empty}>Checking the wire...</div>
+                <div className={styles.empty}>Loading...</div>
             ) : notifications.length === 0 ? (
-                <div className={styles.empty}>The wire is quiet</div>
+                <div className={styles.empty}>No notifications</div>
             ) : (
                 <>
                     <div className={styles.tabs}>
@@ -155,7 +155,7 @@ export function NotificationsPage() {
                     {activeFilter === "unread" ? (
                         <div className={styles.flatList}>
                             {unreadNotifications.length === 0 ? (
-                                <div className={styles.empty}>No unread signals</div>
+                                <div className={styles.empty}>No unread notifications</div>
                             ) : (
                                 unreadNotifications.map(notif => (
                                     <div

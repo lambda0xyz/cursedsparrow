@@ -506,12 +506,12 @@ export function FileBrowserPage() {
             >
                 <div className={styles.page}>
                     <div className={styles.head}>
-                        <h1 className={styles.title}>Data Vault</h1>
-                        {canManageLocks && <span className={styles.gmBadge}>GM access</span>}
+                        <h1 className={styles.title}>Files</h1>
+                        {canManageLocks && <span className={styles.gmBadge}>staff access</span>}
                     </div>
                     <p className={styles.subtitle}>
                         Shared file storage. Click a folder to open it, a file to download. Locked folders are visible
-                        to GMs and staff only.
+                        to staff only.
                     </p>
 
                     <nav className={styles.breadcrumbs} aria-label="Breadcrumb">
@@ -627,7 +627,7 @@ export function FileBrowserPage() {
                     )}
 
                     <div className={styles.dropZone}>
-                        {browse.loading && <div className={styles.placeholder}>Loading vault…</div>}
+                        {browse.loading && <div className={styles.placeholder}>Loading…</div>}
                         {isEmpty && (
                             <div className={styles.placeholder}>This folder is empty. Drop files here or upload.</div>
                         )}
@@ -673,7 +673,7 @@ export function FileBrowserPage() {
                                                 </span>
                                                 <span className={styles.rowName}>{folder.name}</span>
                                                 {folder.locked && (
-                                                    <span className={styles.lockBadge} title="Locked - GM only">
+                                                    <span className={styles.lockBadge} title="Locked - staff only">
                                                         {"🔒"}
                                                     </span>
                                                 )}
@@ -717,7 +717,7 @@ export function FileBrowserPage() {
                                                 </span>
                                                 <span className={styles.rowName}>{file.name}</span>
                                                 {file.locked && (
-                                                    <span className={styles.lockBadge} title="Locked - GM only">
+                                                    <span className={styles.lockBadge} title="Locked - staff only">
                                                         {"🔒"}
                                                     </span>
                                                 )}

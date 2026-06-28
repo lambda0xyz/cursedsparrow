@@ -19,7 +19,7 @@ export function SetEmailPage() {
         return (
             <div className={styles.page}>
                 <div className={styles.statusLine}>
-                    syncing node<span className={styles.cursor}>_</span>
+                    loading<span className={styles.cursor}>_</span>
                 </div>
             </div>
         );
@@ -50,15 +50,15 @@ export function SetEmailPage() {
         <div className={styles.page}>
             <div className={styles.cardSolo}>
                 <div className={styles.soloHead}>
-                    <div className={styles.soloBadge}>NODE 6WS // IDENTITY</div>
+                    <div className={styles.soloBadge}>ACCOUNT</div>
                 </div>
 
                 <div className={`${styles.form} ${styles.formSolo}`}>
-                    <h2 className={styles.title}>Link Comm Address</h2>
-                    <p className={styles.sub}>register a recovery address for your handle</p>
+                    <h2 className={styles.title}>Add Email Address</h2>
+                    <p className={styles.sub}>add a recovery email to your account</p>
                     <p className={styles.hint}>
-                        A comm address is now required so you can recover your handle and stay jacked in. Enter one to
-                        continue; we will transmit a confirmation link to verify it.
+                        An email address is now required so you can recover your account. Enter one to continue; we'll
+                        send a confirmation link to verify it.
                     </p>
 
                     {error && <div className={styles.error}>{error}</div>}
@@ -66,12 +66,12 @@ export function SetEmailPage() {
                     <form onSubmit={handleSubmit}>
                         <div className={styles.fieldStack}>
                             <div className={styles.field}>
-                                <label className={styles.label}>Comm Address</label>
+                                <label className={styles.label}>Email Address</label>
                                 <Input
                                     className={styles.input}
                                     type="email"
                                     fullWidth
-                                    placeholder="you@thegrid.net"
+                                    placeholder="you@example.com"
                                     value={email}
                                     onChange={e => setEmail(e.target.value)}
                                     autoComplete="email"
@@ -79,7 +79,7 @@ export function SetEmailPage() {
                             </div>
 
                             <button className={styles.btnJack} type="submit" disabled={!email || submitting}>
-                                {submitting ? "..." : "Link & Continue ▸"}
+                                {submitting ? "..." : "Save & Continue ▸"}
                             </button>
                         </div>
                     </form>

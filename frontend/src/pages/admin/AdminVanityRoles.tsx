@@ -303,7 +303,7 @@ export function AdminVanityRoles() {
                 <div className={styles.manageBody}>
                     {managingRole?.is_system ? (
                         <div className={styles.systemNotice}>
-                            This is a system role. Runners are automatically assigned based on leaderboard standing and
+                            This is a system role. Members are automatically assigned based on leaderboard standing and
                             cannot be manually changed.
                         </div>
                     ) : (

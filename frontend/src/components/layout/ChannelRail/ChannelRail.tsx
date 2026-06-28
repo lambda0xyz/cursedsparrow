@@ -312,7 +312,7 @@ export function ChannelRail({ onNavigate }: { onNavigate?: () => void } = {}) {
         <aside className={styles.rail}>
             <div className={styles.serverHead}>
                 <span className={styles.serverName}>
-                    SIXTH WORLD <b>SUNDAY</b>
+                    THE CURSED <b>SPARROW</b>
                 </span>
             </div>
 
@@ -321,10 +321,10 @@ export function ChannelRail({ onNavigate }: { onNavigate?: () => void } = {}) {
                     type="button"
                     className={`${styles.channel}${location.pathname === "/files" ? ` ${styles.active}` : ""}`}
                     onClick={() => go("/files")}
-                    title="File Vault"
+                    title="Files"
                 >
                     <span className={styles.glyph}>{"⛁"}</span>
-                    <span className={styles.channelName}>Data Vault</span>
+                    <span className={styles.channelName}>Files</span>
                 </button>
 
                 {groups.map(group => (

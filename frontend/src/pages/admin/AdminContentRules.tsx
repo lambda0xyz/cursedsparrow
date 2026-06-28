@@ -34,7 +34,7 @@ export function AdminContentRules() {
     }
 
     if (loading) {
-        return <div className={styles.loading}>Loading protocols...</div>;
+        return <div className={styles.loading}>Loading...</div>;
     }
 
     const saving = updateSettingsMutation.isPending;

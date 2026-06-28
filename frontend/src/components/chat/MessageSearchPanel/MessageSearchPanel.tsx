@@ -65,7 +65,7 @@ export function MessageSearchPanel({ roomId, isOpen, onClose, onJump }: MessageS
                 aria-label="Search messages"
             >
                 <header className={styles.header}>
-                    <span className={styles.title}>Search transmissions</span>
+                    <span className={styles.title}>Search messages</span>
                     <Button variant="danger" size="icon" onClick={onClose} aria-label="Close">
                         {"✕"}
                     </Button>

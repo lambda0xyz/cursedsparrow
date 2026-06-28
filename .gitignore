@@ -59,3 +59,5 @@ inspections
 .DS_Store
 data
 postgres.env
+
+AGENTS.md

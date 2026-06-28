@@ -55,7 +55,7 @@ export function CreateChannelModal({ isOpen, onClose, onCreated, initialKind = "
     }
 
     return (
-        <Modal isOpen={isOpen} onClose={onClose} title="Spin Up Channel">
+        <Modal isOpen={isOpen} onClose={onClose} title="Create Channel">
             <div className={styles.body}>
                 {error && <div className={styles.error}>{error}</div>}
 
@@ -90,7 +90,7 @@ export function CreateChannelModal({ isOpen, onClose, onCreated, initialKind = "
                         type="text"
                         value={name}
                         onChange={e => setName(e.target.value)}
-                        placeholder="e.g. sunday-run"
+                        placeholder="e.g. general"
                         maxLength={80}
                     />
                 </div>

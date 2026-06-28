@@ -1,6 +1,6 @@
-# Sixth World Sunday
+# The Cursed Sparrow
 
-A private, invite-based, Shadowrun ("Sixth World") themed, Discord-style community chat node. Self-hosted, web-only, with session-cookie auth.
+A private, invite-based, Discord-style community chat node. Self-hosted, web-only, with session-cookie auth.
 
 ## Features
 
@@ -16,7 +16,7 @@ A private, invite-based, Shadowrun ("Sixth World") themed, Discord-style communi
   - Per-channel nickname and avatar overrides
 - **Voice and screen-sharing** in channels via a self-hosted [LiveKit](https://livekit.io/) server. Optional, off by default, gated by an admin "Enable Voice Chat" setting.
 - **Users and auth** - invite-based registration, login, email verification, password reset, rich profiles (bio, avatar, banner, social links), online presence, and user blocking.
-- **Roles** - Sysop / Admin / Moderator, plus admin-defined vanity role pills.
+- **Roles** - Owner / Admin / Moderator, plus admin-defined vanity role pills.
 - **Moderation** - kick / ban / timeout, banned-word rules (global and per-channel), user and message reports, and an audit log.
 - **Notifications** - in-app notification bell, browser desktop notifications (Notification API; fires for replies, mentions, reactions, etc. while a tab is open or backgrounded), and optional email notifications.
 - **Admin console** - stats, user management, invites, reports, banned words, vanity roles, content rules, and site settings.
@@ -113,7 +113,7 @@ npm run build   # tsc + vite build into ../static/
 go run .
 ```
 
-The server listens on `:4323` (override with `PORT`). The first user to register is assigned the Sysop (super admin) role, so start there to unlock the admin console.
+The server listens on `:4323` (override with `PORT`). The first user to register is assigned the Owner (super admin) role, so start there to unlock the admin console.
 
 For frontend iteration, `npm run dev` (in `frontend/`) runs the Vite dev server with HMR and proxies the API to the Go server.
 

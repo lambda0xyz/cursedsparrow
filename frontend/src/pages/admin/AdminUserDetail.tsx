@@ -157,7 +157,7 @@ export function AdminUserDetail() {
     }
 
     if (loading) {
-        return <div className={styles.loading}>Pulling runner dossier...</div>;
+        return <div className={styles.loading}>Loading...</div>;
     }
 
     if (error && !user) {
@@ -171,10 +171,10 @@ export function AdminUserDetail() {
     return (
         <div className={styles.page}>
             <span className={styles.backLink} onClick={() => navigate("/admin/users")}>
-                &larr; Back to Runners
+                &larr; Back to Members
             </span>
 
-            <h1 className={styles.title}>Runner Dossier</h1>
+            <h1 className={styles.title}>User Detail</h1>
 
             {error && <div className={styles.error}>{error}</div>}
             {feedback && <div className={styles.success}>{feedback}</div>}
@@ -199,7 +199,7 @@ export function AdminUserDetail() {
                         {user.email ? (
                             <span className={styles.infoValue}>{user.email}</span>
                         ) : (
-                            <span className={styles.bannedBadge}>No comm channel</span>
+                            <span className={styles.bannedBadge}>No email on file</span>
                         )}
                     </div>
                     {user.ip && (
@@ -211,7 +211,7 @@ export function AdminUserDetail() {
                     <div className={styles.infoItem}>
                         <span className={styles.infoLabel}>Status</span>
                         <span className={user.banned ? styles.bannedBadge : styles.activeBadge}>
-                            {user.banned ? "Flatlined" : "Jacked In"}
+                            {user.banned ? "Banned" : "Active"}
                         </span>
                     </div>
                     {user.banned && user.ban_reason && (
@@ -237,7 +237,7 @@ export function AdminUserDetail() {
                     {user.locked && (
                         <div className={styles.infoItem}>
                             <span className={styles.infoLabel}>Lock</span>
-                            <span className={styles.bannedBadge}>ICE Locked</span>
+                            <span className={styles.bannedBadge}>Locked</span>
                         </div>
                     )}
                     {user.locked && user.lock_reason && (
@@ -342,7 +342,7 @@ export function AdminUserDetail() {
 
             {can(currentUser?.role, "reset_password") && user.role !== "super_admin" && (
                 <div className={styles.card}>
-                    <h2 className={styles.sectionTitle}>passkey</h2>
+                    <h2 className={styles.sectionTitle}>password</h2>
                     <p className={styles.fieldLabel}>
                         Generates a new random password and logs the user out everywhere. Use this for users who are
                         locked out and have no email to self-reset.
@@ -365,13 +365,13 @@ export function AdminUserDetail() {
             <Modal
                 isOpen={resetPasswordResult !== null}
                 onClose={() => setResetPasswordResult(null)}
-                title="New Passkey"
+                title="New Password"
             >
                 <div className={styles.modalBody}>
-                    Share this new passkey with <strong>{user.display_name}</strong> securely. It will not be shown
+                    Share this new password with <strong>{user.display_name}</strong> securely. It will not be shown
                     again.
                     <div className={styles.infoItem} style={{ marginTop: "1rem" }}>
-                        <span className={styles.infoLabel}>Passkey</span>
+                        <span className={styles.infoLabel}>Password</span>
                         <code className={styles.infoValue}>{resetPasswordResult}</code>
                     </div>
                 </div>

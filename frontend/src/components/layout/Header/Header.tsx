@@ -21,14 +21,14 @@ export function Header() {
                     {"☰"}
                 </button>
             )}
-            <NavLink to="/" className={styles.brand} aria-label="Sixth World Sunday home">
-                SIXTH WORLD <b>SUNDAY</b>
+            <NavLink to="/" className={styles.brand} aria-label="The Cursed Sparrow home">
+                THE CURSED <b>SPARROW</b>
             </NavLink>
 
             <span className={styles.sep} aria-hidden="true" />
 
             <span className={styles.stat}>
-                <span className={`${styles.dot} ${styles.dotGreen}`} /> node online
+                <span className={`${styles.dot} ${styles.dotGreen}`} /> online
             </span>
 
             <span className={styles.spacer} />

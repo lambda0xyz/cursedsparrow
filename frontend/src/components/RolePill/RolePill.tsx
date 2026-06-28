@@ -10,10 +10,10 @@ interface RolePillProps {
 }
 
 const roleConfig: Record<string, { label: string; className: string; tooltip: string }> = {
-    super_admin: { label: "Sysop", className: "superAdmin", tooltip: "Site owner - super administrator" },
+    super_admin: { label: "Owner", className: "superAdmin", tooltip: "Site owner" },
     admin: { label: "Admin", className: "admin", tooltip: "Administrator" },
     moderator: { label: "Moderator", className: "moderator", tooltip: "Moderator" },
-    gm: { label: "GM", className: "gm", tooltip: "Game Master" },
+    gm: { label: "Host", className: "gm", tooltip: "Host" },
 };
 
 function hexToRgba(hex: string, alpha: number): string {

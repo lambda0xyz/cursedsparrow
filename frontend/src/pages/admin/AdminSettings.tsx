@@ -158,12 +158,12 @@ export function AdminSettings() {
     }
 
     if (loading) {
-        return <div className={styles.loading}>Loading node config...</div>;
+        return <div className={styles.loading}>Loading...</div>;
     }
 
     return (
         <div className={styles.page}>
-            <h1 className={styles.title}>Node Config</h1>
+            <h1 className={styles.title}>Settings</h1>
 
             <div className={styles.card}>
                 <h2 className={styles.sectionTitle}>Feature Toggles</h2>
@@ -193,7 +193,7 @@ export function AdminSettings() {
                                     value={settings.maintenance_title ?? ""}
                                     onChange={e => updateField("maintenance_title", e.target.value)}
                                     fullWidth
-                                    placeholder="Node offline for maintenance"
+                                    placeholder="Down for maintenance"
                                 />
                             </div>
                             <div className={styles.field}>
@@ -202,7 +202,7 @@ export function AdminSettings() {
                                     value={settings.maintenance_message ?? ""}
                                     onChange={e => updateField("maintenance_message", e.target.value)}
                                     fullWidth
-                                    placeholder="The grid is down for upgrades. Jack back in shortly."
+                                    placeholder="Down for maintenance. Check back shortly."
                                 />
                             </div>
                         </>
@@ -573,7 +573,7 @@ export function AdminSettings() {
                     </div>
                     <EmbedPreviews
                         image={settings.og_default_image ?? ""}
-                        siteName={settings.site_name ?? "Sixth World Sunday"}
+                        siteName={settings.site_name ?? "The Cursed Sparrow"}
                         baseURL={settings.base_url ?? ""}
                     />
                 </div>
@@ -590,12 +590,12 @@ export function AdminSettings() {
     );
 }
 
-const EMBED_PREVIEW_TITLE = "Sixth World Sunday - Shadowrun Community";
+const EMBED_PREVIEW_TITLE = "The Cursed Sparrow";
 const EMBED_PREVIEW_DESCRIPTION =
-    "Welcome to the sprawl. Share runs, post art, join the conversation, and connect with the Shadowrun community.";
+    "A private community space. Chat, voice, streams, and file storage — all in one place.";
 
 function EmbedPreviews({ image, siteName, baseURL }: { image: string; siteName: string; baseURL: string }) {
-    const domain = baseURL.replace(/^https?:\/\//, "").replace(/\/$/, "") || "sixthworldsunday.net";
+    const domain = baseURL.replace(/^https?:\/\//, "").replace(/\/$/, "") || "cursedsparrow.lambdadelta.xyz";
 
     return (
         <div className={styles.embedPreviews}>

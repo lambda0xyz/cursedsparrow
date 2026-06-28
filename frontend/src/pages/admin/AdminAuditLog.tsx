@@ -37,7 +37,7 @@ export function AdminAuditLog() {
                 </Select>
             </div>
 
-            {loading && <div className={styles.loading}>Reading the trace log...</div>}
+            {loading && <div className={styles.loading}>Loading...</div>}
             {error && <div className={styles.error}>{error}</div>}
 
             {!loading && !error && (

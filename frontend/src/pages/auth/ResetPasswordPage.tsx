@@ -43,12 +43,12 @@ export function ResetPasswordPage() {
             <div className={styles.page}>
                 <div className={styles.cardSolo}>
                     <div className={styles.soloHead}>
-                        <div className={styles.soloBadge}>NODE 6WS // RECOVERY</div>
+                        <div className={styles.soloBadge}>ACCOUNT RECOVERY</div>
                     </div>
                     <div className={`${styles.form} ${styles.formSolo}`}>
-                        <h2 className={styles.title}>New Passkey</h2>
-                        <p className={styles.sub}>set a new passkey for your handle</p>
-                        <div className={styles.error}>This reset link is corrupted or incomplete.</div>
+                        <h2 className={styles.title}>New Password</h2>
+                        <p className={styles.sub}>set a new password for your account</p>
+                        <div className={styles.error}>This reset link is invalid or incomplete.</div>
                         <button className={styles.btnGhost} type="button" onClick={() => navigate("/forgot-password")}>
                             Request a new link
                         </button>
@@ -74,17 +74,17 @@ export function ResetPasswordPage() {
                     {success ? (
                         <>
                             <div className={styles.success}>
-                                Passkey rotated. You can now jack in with your new credentials.
+                                Password updated. You can now sign in with your new credentials.
                             </div>
                             <button className={styles.btnJack} type="button" onClick={() => navigate("/login")}>
-                                Go to jack in ▸
+                                Go to sign in ▸
                             </button>
                         </>
                     ) : (
                         <form onSubmit={handleSubmit}>
                             <div className={styles.fieldStack}>
                                 <div className={styles.field}>
-                                    <label className={styles.label}>New Passkey</label>
+                                    <label className={styles.label}>New Password</label>
                                     <Input
                                         className={styles.input}
                                         type="password"
@@ -97,7 +97,7 @@ export function ResetPasswordPage() {
                                 </div>
 
                                 <div className={styles.field}>
-                                    <label className={styles.label}>Confirm Passkey</label>
+                                    <label className={styles.label}>Confirm Password</label>
                                     <Input
                                         className={styles.input}
                                         type="password"
@@ -114,7 +114,7 @@ export function ResetPasswordPage() {
                                     type="submit"
                                     disabled={!password || !confirm || loading}
                                 >
-                                    {loading ? "..." : "Rotate Passkey ▸"}
+                                    {loading ? "..." : "Update Password ▸"}
                                 </button>
                             </div>
                         </form>

@@ -18,40 +18,40 @@ export function ChangePasswordSection() {
         setSuccess("");
 
         if (newPassword.length < 8) {
-            setError("New passkey must be at least 8 characters.");
+            setError("New password must be at least 8 characters.");
             return;
         }
         if (newPassword !== confirmPassword) {
-            setError("Passkeys do not match.");
+            setError("Passwords do not match.");
             return;
         }
 
         try {
             await changeMutation.mutateAsync({ old_password: oldPassword, new_password: newPassword });
-            setSuccess("Passkey rotated successfully.");
+            setSuccess("Password changed successfully.");
             setOldPassword("");
             setNewPassword("");
             setConfirmPassword("");
         } catch (err) {
-            setError(err instanceof Error ? err.message : "Failed to rotate passkey.");
+            setError(err instanceof Error ? err.message : "Failed to change password.");
         }
     }
 
     return (
         <div className={styles.section}>
-            <h3 className={styles.sectionTitle}>change passkey</h3>
+            <h3 className={styles.sectionTitle}>change password</h3>
             {error && <div className={styles.error}>{error}</div>}
             {success && <div className={styles.success}>{success}</div>}
             <label className={styles.label}>
-                Current Passkey
+                Current Password
                 <Input type="password" fullWidth value={oldPassword} onChange={e => setOldPassword(e.target.value)} />
             </label>
             <label className={styles.label}>
-                New Passkey
+                New Password
                 <Input type="password" fullWidth value={newPassword} onChange={e => setNewPassword(e.target.value)} />
             </label>
             <label className={styles.label}>
-                Confirm New Passkey
+                Confirm New Password
                 <Input
                     type="password"
                     fullWidth
@@ -66,7 +66,7 @@ export function ChangePasswordSection() {
                 onClick={handleSubmit}
                 style={{ width: "100%" }}
             >
-                {changing ? "Rotating..." : "Rotate Passkey"}
+                {changing ? "Saving..." : "Change Password"}
             </Button>
         </div>
     );

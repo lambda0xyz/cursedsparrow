@@ -1,10 +1,10 @@
 export type SiteRole = "super_admin" | "admin" | "moderator" | "gm";
 
 export const ROLE_GROUPS: { role: SiteRole; label: string }[] = [
-    { role: "super_admin", label: "Sysops" },
+    { role: "super_admin", label: "Owners" },
     { role: "admin", label: "Admins" },
     { role: "moderator", label: "Moderators" },
-    { role: "gm", label: "Game Masters" },
+    { role: "gm", label: "Hosts" },
 ];
 
 export function isSiteStaff(role: SiteRole | undefined | null): boolean {

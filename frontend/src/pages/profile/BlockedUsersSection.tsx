@@ -20,9 +20,9 @@ export function BlockedUsersSection() {
 
     return (
         <div className={`${styles.section} ${styles.gridFull}`}>
-            <h3 className={styles.sectionTitle}>blocked runners</h3>
-            {loading && <p className={styles.mutedText}>Scanning blocklist...</p>}
-            {!loading && users.length === 0 && <p className={styles.mutedText}>No runners on your blocklist.</p>}
+            <h3 className={styles.sectionTitle}>blocked users</h3>
+            {loading && <p className={styles.mutedText}>Loading...</p>}
+            {!loading && users.length === 0 && <p className={styles.mutedText}>No users on your blocklist.</p>}
             {!loading && users.length > 0 && (
                 <div className={styles.blockedList}>
                     {users.map(u => (

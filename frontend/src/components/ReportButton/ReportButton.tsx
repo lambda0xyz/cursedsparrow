@@ -34,7 +34,7 @@ export function ReportButton({ targetType, targetId, contextId }: ReportButtonPr
             setSubmitted(true);
             setReason("");
         } catch (err) {
-            setError(err instanceof Error ? err.message : "Failed to transmit flag");
+            setError(err instanceof Error ? err.message : "Failed to submit report");
         }
     }
 
@@ -50,10 +50,10 @@ export function ReportButton({ targetType, targetId, contextId }: ReportButtonPr
             <Button variant="ghost" size="small" onClick={() => setOpen(true)}>
                 Report
             </Button>
-            <Modal isOpen={open} onClose={handleClose} title="Flag Transmission">
+            <Modal isOpen={open} onClose={handleClose} title="Report">
                 {submitted ? (
                     <div className={styles.body}>
-                        <p className={styles.success}>Flag transmitted. A moderator will review it.</p>
+                        <p className={styles.success}>Report submitted. A moderator will review it.</p>
                         <div className={styles.actions}>
                             <Button variant="primary" onClick={handleClose}>
                                 Close
@@ -65,7 +65,7 @@ export function ReportButton({ targetType, targetId, contextId }: ReportButtonPr
                         <Input
                             fullWidth
                             type="text"
-                            placeholder="Why are you flagging this transmission?"
+                            placeholder="Why are you reporting this?"
                             value={reason}
                             onChange={e => setReason(e.target.value)}
                         />
@@ -79,7 +79,7 @@ export function ReportButton({ targetType, targetId, contextId }: ReportButtonPr
                                 onClick={handleSubmit}
                                 disabled={reportMutation.isPending || !reason.trim()}
                             >
-                                {reportMutation.isPending ? "Transmitting..." : "Transmit Flag"}
+                                {reportMutation.isPending ? "Submitting..." : "Submit Report"}
                             </Button>
                         </div>
                     </div>

@@ -9,7 +9,7 @@ interface NotificationConfig {
 }
 
 const roleDisplayNames: Record<string, string> = {
-    super_admin: "Sysop",
+    super_admin: "Owner",
     admin: "Admin",
     moderator: "Moderator",
 };

@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://whentheycry.social/sitemap.xml
+Sitemap: https://cursedsparrow.lambdadelta.xyz/sitemap.xml

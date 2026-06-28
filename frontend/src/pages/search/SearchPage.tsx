@@ -64,33 +64,33 @@ export function SearchPage() {
 
     return (
         <div className={styles.page}>
-            <h1 className={styles.heading}>Search the Grid</h1>
+            <h1 className={styles.heading}>Search</h1>
 
             <InfoPanel title="Query Syntax">
                 <p>
-                    Most queries just work — type handles, fragments, even typos and misspellings ("wrth" finds
+                    Most queries just work — type names, fragments, even typos and misspellings ("wrth" finds
                     "Wraith"). For when you need more precision:
                 </p>
                 <ul className={styles.syntaxList}>
                     <li>
-                        <code>wraith decker</code> — both words must appear
+                        <code>alice bob</code> — both words must appear
                     </li>
                     <li>
-                        <code>wraith OR ghost</code> — either word matches
+                        <code>alice OR bob</code> — either word matches
                     </li>
                     <li>
-                        <code>runner -decker</code> — has <strong>runner</strong>, but not <strong>decker</strong>
+                        <code>member -mod</code> — has <strong>member</strong>, but not <strong>mod</strong>
                     </li>
                     <li>
-                        <code>"black ice"</code> — exact phrase, words adjacent in order
+                        <code>"exact phrase"</code> — exact phrase, words adjacent in order
                     </li>
                     <li>
-                        Mix freely: <code>"shadow run" wraith -decker</code>
+                        Mix freely: <code>"exact phrase" alice -bob</code>
                     </li>
                 </ul>
                 <p>
-                    Use the chips below to limit results to a section. <strong>Comments only</strong> spans every
-                    section. Drafts and banned-user paydata never surface in results.
+                    Use the chips below to limit results to a section. <strong>Messages only</strong> spans every
+                    section. Drafts and banned-user content never surface in results.
                 </p>
             </InfoPanel>
 
@@ -99,7 +99,7 @@ export function SearchPage() {
                     key={queryParam}
                     name="q"
                     type="search"
-                    placeholder="Search the grid..."
+                    placeholder="Search..."
                     defaultValue={queryParam}
                     fullWidth
                     autoFocus
@@ -122,7 +122,7 @@ export function SearchPage() {
                 ))}
             </div>
 
-            {!queryParam && <div className={styles.hint}>Enter at least 2 characters to query the grid.</div>}
+            {!queryParam && <div className={styles.hint}>Enter at least 2 characters to search.</div>}
 
             {queryParam && queryParam.trim().length < 2 && (
                 <div className={styles.hint}>Enter at least 2 characters.</div>
@@ -131,12 +131,12 @@ export function SearchPage() {
             {queryParam && queryParam.trim().length >= 2 && (
                 <>
                     <div className={styles.summary}>
-                        {loading ? "Scanning..." : `${total} ${total === 1 ? "hit" : "hits"} for "${queryParam}"`}
+                        {loading ? "Searching..." : `${total} ${total === 1 ? "hit" : "hits"} for "${queryParam}"`}
                         {fetching && !loading && <span className={styles.refetch}> updating...</span>}
                     </div>
 
                     {!loading && results.length === 0 && (
-                        <div className={styles.empty}>No paydata found. Try different keywords or drop the filter.</div>
+                        <div className={styles.empty}>No results found. Try different keywords or drop the filter.</div>
                     )}
 
                     <div className={styles.results}>

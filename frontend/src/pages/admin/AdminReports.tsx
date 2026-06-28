@@ -62,7 +62,7 @@ export function AdminReports() {
             </div>
 
             {loading ? (
-                <div className={styles.loading}>Pulling flagged traffic...</div>
+                <div className={styles.loading}>Loading...</div>
             ) : reports.length === 0 ? (
                 <div className={styles.empty}>No reports found</div>
             ) : (

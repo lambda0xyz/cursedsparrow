@@ -10,7 +10,7 @@ export function AdminLayout() {
         <div className={styles.layout}>
             <div className={styles.header}>
                 <h2 className={styles.title}>
-                    {can(user?.role, "manage_settings") ? "Node Control" : "Moderator Deck"}
+                    {can(user?.role, "manage_settings") ? "Admin Panel" : "Mod Panel"}
                 </h2>
                 <nav className={styles.tabs}>
                     <NavLink

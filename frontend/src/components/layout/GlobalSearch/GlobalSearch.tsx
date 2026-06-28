@@ -91,7 +91,7 @@ export function GlobalSearch() {
                     ref={inputRef}
                     type="search"
                     className={styles.input}
-                    placeholder="search the grid…"
+                    placeholder="search…"
                     value={value}
                     onChange={e => {
                         setValue(e.target.value);
@@ -103,13 +103,13 @@ export function GlobalSearch() {
                     aria-label="Search the site"
                 />
                 <button type="button" className={styles.submitButton} onClick={submit} aria-label="Open search page">
-                    Run
+                    Search
                 </button>
             </div>
             {showDropdown && (
                 <div className={styles.dropdown} role="listbox">
-                    {loading && results.length === 0 && <div className={styles.loadingRow}>scanning the grid…</div>}
-                    {!loading && !hasResults && <div className={styles.emptyRow}>no paydata for "{debounced}".</div>}
+                    {loading && results.length === 0 && <div className={styles.loadingRow}>searching…</div>}
+                    {!loading && !hasResults && <div className={styles.emptyRow}>no results for "{debounced}".</div>}
                     {hasResults &&
                         grouped.map(({ group, items }) => (
                             <div key={group} className={styles.group}>
@@ -129,7 +129,7 @@ export function GlobalSearch() {
                         ))}
                     {hasResults && (
                         <button type="button" className={styles.seeAll} onClick={submit}>
-                            See all paydata for "{debounced}"
+                            See all results for "{debounced}"
                         </button>
                     )}
                 </div>

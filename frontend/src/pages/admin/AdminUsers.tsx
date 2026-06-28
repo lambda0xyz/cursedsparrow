@@ -27,29 +27,29 @@ export function AdminUsers() {
 
     return (
         <div className={styles.page}>
-            <h1 className={styles.title}>Runners</h1>
+            <h1 className={styles.title}>Members</h1>
 
             <form className={styles.searchRow} onSubmit={handleSearch}>
                 <Input
-                    placeholder="Search the grid..."
+                    placeholder="Search members..."
                     value={search}
                     onChange={e => setSearch(e.target.value)}
                     fullWidth
                 />
             </form>
 
-            {loading && <div className={styles.loading}>Scanning the grid...</div>}
+            {loading && <div className={styles.loading}>Loading...</div>}
             {error && <div className={styles.error}>{error}</div>}
 
             {!loading && !error && (
                 <>
                     {users.length === 0 ? (
-                        <div className={styles.empty}>No runners found</div>
+                        <div className={styles.empty}>No members found</div>
                     ) : (
                         <table className={styles.table}>
                             <thead>
                                 <tr>
-                                    <th>Handle</th>
+                                    <th>Username</th>
                                     <th>Display Name</th>
                                     <th>Role</th>
                                     <th>Status</th>
@@ -81,9 +81,9 @@ export function AdminUsers() {
                                         </td>
                                         <td>
                                             {u.banned ? (
-                                                <span className={styles.banned}>Flatlined</span>
+                                                <span className={styles.banned}>Banned</span>
                                             ) : (
-                                                <span className={styles.notBanned}>Jacked In</span>
+                                                <span className={styles.notBanned}>Active</span>
                                             )}
                                         </td>
                                         <td>{formatDate(u.created_at)}</td>

@@ -3,18 +3,18 @@ import { usePageTitle } from "../../hooks/usePageTitle";
 import styles from "./NotFoundPage.module.css";
 
 export function NotFoundPage() {
-    usePageTitle("Node Not Found");
+    usePageTitle("Page Not Found");
 
     return (
         <div className={styles.page}>
             <div className={styles.code}>404</div>
-            <h1 className={styles.title}>This node is off the grid</h1>
+            <h1 className={styles.title}>This page doesn't exist</h1>
             <p className={styles.blurb}>
-                Dead address, chummer. The host you pinged doesn't answer — maybe a broken link, maybe paydata that was
-                scrubbed, maybe ICE took it down. Jack back to the main grid and try a fresh route.
+                That page couldn't be found — maybe a broken link, or content that was removed. Head back home and try
+                again.
             </p>
             <Link to="/" className={styles.cta}>
-                Back to the Grid
+                Back Home
             </Link>
         </div>
     );

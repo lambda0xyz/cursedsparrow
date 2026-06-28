@@ -197,8 +197,8 @@ export function ChatComposer({
     const canSend = !submitting && (body.trim().length > 0 || files.length > 0);
     const showToolbarItems = !compact || toolbarOpen;
     const placeholder = sendOnEnter
-        ? "Transmit to channel… (Enter to send, Shift+Enter for newline)"
-        : "Transmit to channel…";
+        ? "Message the channel… (Enter to send, Shift+Enter for newline)"
+        : "Message the channel…";
 
     if (timedOut) {
         const until = formatFullDateTime(timeoutUntil);

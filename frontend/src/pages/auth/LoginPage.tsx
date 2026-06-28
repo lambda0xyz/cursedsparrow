@@ -69,23 +69,21 @@ export function LoginPage() {
             <div className={styles.card}>
                 <div className={styles.brand}>
                     <div className={styles.badge}>
-                        <span className={styles.badgeDot} /> NODE 6WS // SECURE
+                        <span className={styles.badgeDot} /> SECURE CONNECTION
                     </div>
 
                     <div className={styles.wordmark}>
-                        <div className={styles.wordmarkKicker}>Sixth World</div>
-                        <h1 className={styles.wordmarkTitle}>
-                            SUN<span>DAY</span>
-                        </h1>
+                        <div className={styles.wordmarkKicker}>The Cursed</div>
+                        <h1 className={styles.wordmarkTitle}>SPARROW</h1>
                         <p className={styles.tagline}>
-                            Private node for the sprawl. Voice, text, streams, and the Archive — all jacked into one
-                            grid.
+                            A private space for the community. Voice, text, streams, and file storage — all in one
+                            place.
                         </p>
                     </div>
 
                     <div className={styles.telemetry}>
                         <div className={styles.telemetryRow}>
-                            <span>&gt; matrix_link</span>
+                            <span>&gt; connection</span>
                             <span className={styles.ok}>ESTABLISHED</span>
                         </div>
                         <div className={styles.telemetryRow}>
@@ -93,12 +91,12 @@ export function LoginPage() {
                             <span className={styles.info}>AES-256 // ACTIVE</span>
                         </div>
                         <div className={styles.telemetryRow}>
-                            <span>&gt; ice_layer</span>
+                            <span>&gt; firewall</span>
                             <span className={styles.warn}>SCANNING</span>
                         </div>
                         <div className={styles.telemetryRow}>
                             <span>
-                                &gt; awaiting handshake<span className={styles.cursor}>_</span>
+                                &gt; awaiting connection<span className={styles.cursor}>_</span>
                             </span>
                             <span />
                         </div>
@@ -106,9 +104,9 @@ export function LoginPage() {
                 </div>
 
                 <div className={styles.form}>
-                    <h2 className={styles.title}>{isRegister ? "New Identity" : "Jack In"}</h2>
+                    <h2 className={styles.title}>{isRegister ? "Create Account" : "Sign In"}</h2>
                     <p className={styles.sub}>
-                        {isRegister ? "register a handle to enter the node" : "authenticate to enter the node"}
+                        {isRegister ? "create an account to get started" : "sign in to continue"}
                     </p>
 
                     {error && <div className={styles.error}>{error}</div>}
@@ -116,12 +114,12 @@ export function LoginPage() {
                     <form onSubmit={handleSubmit}>
                         <div className={styles.fieldStack}>
                             <div className={styles.field}>
-                                <label className={styles.label}>Handle / SIN</label>
+                                <label className={styles.label}>Username</label>
                                 <Input
                                     className={styles.input}
                                     type="text"
                                     fullWidth
-                                    placeholder="ghost_in_the_grid"
+                                    placeholder="your_username"
                                     value={username}
                                     onChange={e => setUsername(e.target.value)}
                                     autoComplete="username"
@@ -129,7 +127,7 @@ export function LoginPage() {
                             </div>
 
                             <div className={styles.field}>
-                                <label className={styles.label}>Passkey</label>
+                                <label className={styles.label}>Password</label>
                                 <Input
                                     className={styles.input}
                                     type="password"
@@ -144,12 +142,12 @@ export function LoginPage() {
                             {isRegister && (
                                 <>
                                     <div className={styles.field}>
-                                        <label className={styles.label}>Comm Address</label>
+                                        <label className={styles.label}>Email Address</label>
                                         <Input
                                             className={styles.input}
                                             type="email"
                                             fullWidth
-                                            placeholder="you@thegrid.net"
+                                            placeholder="you@example.com"
                                             value={email}
                                             onChange={e => setEmail(e.target.value)}
                                             autoComplete="email"
@@ -157,12 +155,12 @@ export function LoginPage() {
                                     </div>
 
                                     <div className={styles.field}>
-                                        <label className={styles.label}>Street Name (optional)</label>
+                                        <label className={styles.label}>Display Name (optional)</label>
                                         <Input
                                             className={styles.input}
                                             type="text"
                                             fullWidth
-                                            placeholder="Wraith"
+                                            placeholder="Jane"
                                             value={displayName}
                                             onChange={e => setDisplayName(e.target.value)}
                                         />
@@ -175,7 +173,7 @@ export function LoginPage() {
                                                 className={styles.input}
                                                 type="text"
                                                 fullWidth
-                                                placeholder="contact a fixer"
+                                                placeholder="enter your invite code"
                                                 value={inviteCode}
                                                 onChange={e => setInviteCode(e.target.value)}
                                             />
@@ -211,7 +209,7 @@ export function LoginPage() {
                                     (turnstileEnabled && !turnstileToken)
                                 }
                             >
-                                {loading ? "..." : isRegister ? "Register ▸" : "Jack In ▸"}
+                                {loading ? "..." : isRegister ? "Register ▸" : "Sign In ▸"}
                             </button>
                         </div>
                     </form>
@@ -219,7 +217,7 @@ export function LoginPage() {
                     {canRegister ? (
                         <div className={styles.foot}>
                             <button className={styles.footBtn} type="button" onClick={() => setIsRegister(!isRegister)}>
-                                {isRegister ? "Already a runner? Jack in" : "Request a SIN"}
+                                {isRegister ? "Already have an account? Sign in" : "Create an account"}
                             </button>
                             {!isRegister && siteInfo.email_enabled && (
                                 <button
@@ -227,20 +225,20 @@ export function LoginPage() {
                                     type="button"
                                     onClick={() => navigate("/forgot-password")}
                                 >
-                                    Lost passkey?
+                                    Forgot password?
                                 </button>
                             )}
                         </div>
                     ) : (
                         <div className={styles.foot}>
-                            {!isRegister && <p className={styles.disabledNotice}>Registration is locked down.</p>}
+                            {!isRegister && <p className={styles.disabledNotice}>Registration is closed.</p>}
                             {!isRegister && siteInfo.email_enabled && (
                                 <button
                                     className={styles.footBtn}
                                     type="button"
                                     onClick={() => navigate("/forgot-password")}
                                 >
-                                    Lost passkey?
+                                    Forgot password?
                                 </button>
                             )}
                         </div>

@@ -57,12 +57,12 @@ export function ForgotPasswordPage() {
         <div className={styles.page}>
             <div className={styles.cardSolo}>
                 <div className={styles.soloHead}>
-                    <div className={styles.soloBadge}>NODE 6WS // RECOVERY</div>
+                    <div className={styles.soloBadge}>ACCOUNT RECOVERY</div>
                 </div>
 
                 <div className={`${styles.form} ${styles.formSolo}`}>
                     <h2 className={styles.title}>Recover Access</h2>
-                    <p className={styles.sub}>request a new passkey for your handle</p>
+                    <p className={styles.sub}>request a new password for your account</p>
 
                     {error && <div className={styles.error}>{error}</div>}
                     {success && <div className={styles.success}>{success}</div>}
@@ -71,16 +71,16 @@ export function ForgotPasswordPage() {
                         <form onSubmit={handleSubmit}>
                             <div className={styles.fieldStack}>
                                 <p className={styles.hint}>
-                                    Enter your handle and we will transmit a reset link to the comm address on file.
+                                    Enter your username and we'll send a reset link to the email on file.
                                 </p>
 
                                 <div className={styles.field}>
-                                    <label className={styles.label}>Handle / SIN</label>
+                                    <label className={styles.label}>Username</label>
                                     <Input
                                         className={styles.input}
                                         type="text"
                                         fullWidth
-                                        placeholder="ghost_in_the_grid"
+                                        placeholder="your_username"
                                         value={username}
                                         onChange={e => setUsername(e.target.value)}
                                         autoComplete="username"
@@ -107,7 +107,7 @@ export function ForgotPasswordPage() {
                                     type="submit"
                                     disabled={!username || loading || (turnstileEnabled && !turnstileToken)}
                                 >
-                                    {loading ? "..." : "Transmit Reset ▸"}
+                                    {loading ? "..." : "Send Reset Link ▸"}
                                 </button>
                             </div>
                         </form>
@@ -116,7 +116,7 @@ export function ForgotPasswordPage() {
                     {staff.length > 0 && (
                         <div className={styles.staffContact}>
                             <p className={styles.hint}>
-                                No comm address on file? You cannot self-recover. Reach out to a node admin:
+                                No email on file? You can't self-recover. Reach out to a site admin:
                             </p>
                             {ROLE_GROUPS.map(group => {
                                 const members = staff.filter(member => member.role === group.role);
@@ -140,7 +140,7 @@ export function ForgotPasswordPage() {
                     )}
 
                     <button className={styles.btnGhost} type="button" onClick={() => navigate("/login")}>
-                        Back to jack in
+                        Back to sign in
                     </button>
                 </div>
             </div>

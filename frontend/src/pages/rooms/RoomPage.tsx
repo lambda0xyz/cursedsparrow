@@ -207,7 +207,7 @@ export function RoomPage() {
                                         <Fragment key={m.user.id}>
                                             {showStatusHeader && (
                                                 <div className={styles.memberStatusHeader}>
-                                                    {isOnline ? "jacked in" : "offline"}
+                                                    {isOnline ? "online" : "offline"}
                                                 </div>
                                             )}
                                             <div className={styles.memberRow}>

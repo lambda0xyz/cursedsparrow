@@ -7,7 +7,7 @@ export function AdminDashboard() {
     const { stats, loading } = useAdminStats();
 
     if (loading) {
-        return <div className={styles.loading}>Reading node telemetry...</div>;
+        return <div className={styles.loading}>Loading...</div>;
     }
 
     if (!stats) {
@@ -16,15 +16,15 @@ export function AdminDashboard() {
 
     return (
         <div className={styles.page}>
-            <h1 className={styles.title}>Node Dashboard</h1>
+            <h1 className={styles.title}>Dashboard</h1>
 
             <div className={styles.statCards}>
                 <div className={styles.statCard}>
-                    <div className={styles.statLabel}>Runners</div>
+                    <div className={styles.statLabel}>Members</div>
                     <div className={styles.statValue}>{stats.total_users.toLocaleString()}</div>
                 </div>
                 <div className={styles.statCard}>
-                    <div className={styles.statLabel}>Transmissions</div>
+                    <div className={styles.statLabel}>Messages</div>
                     <div className={styles.statValue}>{stats.total_messages.toLocaleString()}</div>
                 </div>
                 <div className={styles.statCard}>
@@ -38,8 +38,8 @@ export function AdminDashboard() {
                 <thead>
                     <tr>
                         <th>Period</th>
-                        <th>New Runners</th>
-                        <th>New Transmissions</th>
+                        <th>New Members</th>
+                        <th>New Messages</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -61,7 +61,7 @@ export function AdminDashboard() {
                 </tbody>
             </table>
 
-            <h2 className={styles.sectionTitle}>top runners</h2>
+            <h2 className={styles.sectionTitle}>top members</h2>
             <div className={styles.activeUsersCard}>
                 {stats.most_active_users.map(u => (
                     <div key={u.id} className={styles.activeUserRow}>
@@ -73,10 +73,10 @@ export function AdminDashboard() {
                             )}
                             <span>{u.display_name}</span>
                         </div>
-                        <span className={styles.actionCount}>{u.action_count} transmissions</span>
+                        <span className={styles.actionCount}>{u.action_count} messages</span>
                     </div>
                 ))}
-                {stats.most_active_users.length === 0 && <div className={styles.loading}>No active runners yet</div>}
+                {stats.most_active_users.length === 0 && <div className={styles.loading}>No active members yet</div>}
             </div>
         </div>
     );

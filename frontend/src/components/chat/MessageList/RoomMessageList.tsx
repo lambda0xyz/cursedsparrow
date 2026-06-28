@@ -48,12 +48,12 @@ export function RoomMessageList({ controller, classes }: RoomMessageListProps) {
     return (
         <div className={classes.messages} ref={messagesContainerRef} onScroll={handleMessagesScroll}>
             {messages.length === 0 && !hasMore && (
-                <div className={classes.empty}>No transmissions yet. Break the silence.</div>
+                <div className={classes.empty}>No messages yet. Start the conversation.</div>
             )}
             <div ref={messagesContentRef} style={{ display: "flex", flexDirection: "column", gap: "inherit" }}>
                 {hasMore && (
                     <div className={classes.loadMoreBar}>
-                        {loadingMore ? "Pulling older transmissions..." : "Scroll up for more"}
+                        {loadingMore ? "Loading older messages..." : "Scroll up for more"}
                     </div>
                 )}
                 {messages.map(msg => (

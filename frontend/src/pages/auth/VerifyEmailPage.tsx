@@ -30,33 +30,33 @@ export function VerifyEmailPage() {
         <div className={styles.page}>
             <div className={styles.cardSolo}>
                 <div className={styles.soloHead}>
-                    <div className={styles.soloBadge}>NODE 6WS // IDENTITY</div>
+                    <div className={styles.soloBadge}>ACCOUNT</div>
                 </div>
 
                 <div className={`${styles.form} ${styles.formSolo}`}>
-                    <h2 className={styles.title}>Verify Comm Address</h2>
-                    <p className={styles.sub}>confirming your recovery address</p>
+                    <h2 className={styles.title}>Verify Email Address</h2>
+                    <p className={styles.sub}>confirming your email address</p>
 
                     {status === "verifying" && (
                         <p className={styles.statusLine}>
-                            verifying handshake<span className={styles.cursor}>_</span>
+                            verifying<span className={styles.cursor}>_</span>
                         </p>
                     )}
 
                     {status === "ok" && (
                         <>
-                            <div className={styles.success}>Comm address verified. Handshake complete.</div>
+                            <div className={styles.success}>Email address verified. All set.</div>
                             <button className={styles.btnJack} type="button" onClick={() => navigate("/")}>
-                                Enter the Node ▸
+                                Continue ▸
                             </button>
                         </>
                     )}
 
                     {status === "error" && (
                         <>
-                            <div className={styles.error}>This verification link is corrupted or expired.</div>
+                            <div className={styles.error}>This verification link is invalid or expired.</div>
                             <button className={styles.btnGhost} type="button" onClick={() => navigate("/")}>
-                                Return to grid
+                                Return home
                             </button>
                         </>
                     )}

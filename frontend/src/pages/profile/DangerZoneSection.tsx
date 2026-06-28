@@ -23,7 +23,7 @@ export function DangerZoneSection() {
             setUser(null);
             navigate("/");
         } catch (err) {
-            setError(err instanceof Error ? err.message : "Failed to wipe SIN.");
+            setError(err instanceof Error ? err.message : "Failed to delete account.");
         }
     }
 
@@ -32,22 +32,22 @@ export function DangerZoneSection() {
             <div className={styles.dangerZone}>
                 <h3 className={styles.dangerTitle}>danger zone</h3>
                 <p className={styles.dangerText}>
-                    Wiping your SIN is permanent. Your dossier, transmissions, and presence on the node will be purged
-                    from the grid.
+                    Deleting your account is permanent. Your profile, messages, and presence will be removed from the
+                    site.
                 </p>
                 <Button variant="danger" onClick={() => setShowModal(true)} style={{ width: "100%" }}>
-                    Wipe SIN
+                    Delete Account
                 </Button>
             </div>
 
-            <Modal isOpen={showModal} onClose={() => setShowModal(false)} title="Wipe SIN">
+            <Modal isOpen={showModal} onClose={() => setShowModal(false)} title="Delete Account">
                 <div className={styles.modalBody}>
                     <p className={styles.dangerText}>
-                        This action cannot be undone. Enter your passkey to confirm the wipe.
+                        This action cannot be undone. Enter your password to confirm.
                     </p>
                     {error && <div className={styles.error}>{error}</div>}
                     <label className={styles.label}>
-                        Passkey
+                        Password
                         <Input type="password" fullWidth value={password} onChange={e => setPassword(e.target.value)} />
                     </label>
                     <div className={styles.modalActions}>
@@ -55,7 +55,7 @@ export function DangerZoneSection() {
                             Cancel
                         </Button>
                         <Button variant="danger" disabled={deleting || !password} onClick={handleDelete}>
-                            {deleting ? "Wiping..." : "Wipe My SIN"}
+                            {deleting ? "Deleting..." : "Delete My Account"}
                         </Button>
                     </div>
                 </div>

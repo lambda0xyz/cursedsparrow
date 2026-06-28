@@ -92,13 +92,13 @@ export function ProfilePage() {
     const blockHook = useBlock(profile?.id ?? "");
 
     if (loading) {
-        return <div className="loading">Pinging the node...</div>;
+        return <div className="loading">Loading...</div>;
     }
 
     if (!profile) {
         return (
             <div className="empty-state">
-                Runner not found on this node.
+                User not found.
                 <br />
                 <Button variant="secondary" onClick={() => navigate("/")}>
                     Return
@@ -130,7 +130,7 @@ export function ProfilePage() {
         <div className={`${styles.page} ${isBanned ? styles.bannedProfile : ""}`}>
             {isBanned && (
                 <div className={styles.banBanner}>
-                    <span className={styles.banBannerTitle}>SIN revoked // runner blacklisted</span>
+                    <span className={styles.banBannerTitle}>Account banned</span>
                     {profile.ban_reason && <span className={styles.banBannerReason}>Reason: {profile.ban_reason}</span>}
                 </div>
             )}
@@ -172,7 +172,7 @@ export function ProfilePage() {
                         </div>
                     )}
                     {blockHook.status?.blocked_by && (
-                        <div className={styles.blockedBanner}>This runner has blocked you.</div>
+                        <div className={styles.blockedBanner}>This user has blocked you.</div>
                     )}
                     <div className={styles.metaRow}>
                         {showGender && <span className={styles.metaItem}>{profile.gender}</span>}
@@ -187,7 +187,7 @@ export function ProfilePage() {
                 </div>
             </div>
 
-            <div className={styles.bio}>{profile.bio || "This runner has not written a bio yet."}</div>
+            <div className={styles.bio}>{profile.bio || "This user hasn't written a bio yet."}</div>
 
             {socialEntries.length > 0 && (
                 <div className={styles.socialRow}>

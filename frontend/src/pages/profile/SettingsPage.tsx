@@ -121,13 +121,13 @@ export function SettingsPage() {
     }
 
     if (form.profileLoading) {
-        return <div className="loading">Decrypting dossier...</div>;
+        return <div className="loading">Loading...</div>;
     }
 
     return (
         <div className={styles.page}>
             <h2 className={styles.heading}>Settings</h2>
-            <p className={styles.subheading}>configure your runner dossier and node preferences</p>
+            <p className={styles.subheading}>manage your profile and preferences</p>
 
             <form onSubmit={form.handleSubmit}>
                 <div className={styles.grid}>
@@ -159,7 +159,7 @@ export function SettingsPage() {
                     <BannerSection form={form} />
 
                     <div className={`${styles.section} ${styles.gridFull}`}>
-                        <h3 className={styles.sectionTitle}>dossier</h3>
+                        <h3 className={styles.sectionTitle}>profile</h3>
                         <div className={styles.twoCol}>
                             <label className={styles.label}>
                                 Display Name
@@ -273,7 +273,7 @@ export function SettingsPage() {
                                 value={form.bio}
                                 onChange={e => form.setBio(e.target.value)}
                                 rows={3}
-                                placeholder="Drop your handle's backstory for the rest of the node..."
+                                placeholder="Tell others a little about yourself..."
                             />
                         </label>
                     </div>
